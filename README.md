@@ -14,6 +14,7 @@ Step 4. Run Laragon > "Start All"
 
 Step 5. Open in your browser: `http://elearning.test:8070/` --> `8070` depends on your Laragon Apache Port
 
+Step 6: (Database Setup Guide)
 # Yii Setup Guide:
 
 Setup 1. Download Yii Framework in
@@ -34,3 +35,12 @@ You should have this folder structure:
 ```
 
 **For Yii 1 - Quick Start Guide. Check [here](https://www.yiiframework.com/doc/guide/1.1/en/quickstart.first-app)**
+
+# Database Setup Guide
+Step 1. Open your MySQL GUI Tool (Laragon has a built-in).
+
+Step 2. Connect to your local database (Laragon uses MYSQL Port:3302`)
+
+Step 3. Create database named `elearning_db`
+
+Step 4. Import `elearning_db.sql`
