@@ -1,7 +1,7 @@
 # eLearning
 Generating Multiple Choice Questions to Students based on Teachers subjects
 
-# How to Install
+# How to Install:
 Suggesting to use **Laragon** for our LAMP environment:
 
 Step 1. Laragon - [Download](https://laragon.org/download/)
@@ -20,7 +20,7 @@ Step 6: (Database Setup Guide)
 Setup 1. Download Yii Framework in
 [Yii Framework Download](https://www.yiiframework.com/download) or use this to download [Yii-1.1.29 (Zip)](https://github.com/yiisoft/yii/releases/download/1.1.29/yii-1.1.29.f89b76.tar.gz)
 
-Setup 2. Extract rename the folder from `yii-1.1.29` to `yii`.
+Setup 2. Extract and rename the folder from `yii-1.1.29` to `yii`.
 
 Setup 3. Move your `yii` folder under `/www`
 
@@ -36,7 +36,7 @@ You should have this folder structure:
 
 **For Yii 1 - Quick Start Guide. Check [here](https://www.yiiframework.com/doc/guide/1.1/en/quickstart.first-app)**
 
-# Database Setup Guide
+# Database Setup Guide:
 Step 1. Open your MySQL GUI Tool (Laragon has a built-in).
 
 Step 2. Connect to your local database (Laragon uses MYSQL Port:3302`)
