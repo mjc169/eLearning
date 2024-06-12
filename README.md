@@ -24,8 +24,9 @@ Setup 2. Extract and rename the folder from `yii-1.1.29` to `yii`.
 
 Setup 3. Move your `yii` folder under `/www`
 
-Setup 4. Go back to `eLearning Step 4`
+Setup 4. `git clone https://github.com/mjc169/eLearning.git` under `/www` as well
 
+Setup 5. Go back to `eLearning Step 4`
 
 You should have this folder structure:
 ```
