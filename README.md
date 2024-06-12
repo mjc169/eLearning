@@ -33,4 +33,4 @@ You should have this folder structure:
 /www/yii/framework
 ```
 
-
+**For Yii 1 - Quick Start Guide. Check [here](https://www.yiiframework.com/doc/guide/1.1/en/quickstart.first-app)**
