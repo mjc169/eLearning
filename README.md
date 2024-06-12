@@ -43,4 +43,6 @@ Step 2. Connect to your local database (Laragon uses MYSQL Port:3302`)
 
 Step 3. Create database named `elearning_db`
 
-Step 4. Import `elearning_db.sql`
+Step 4. Import `eLearning/elearning_db.sql`
+
+Step 5. Confirm all parameters are correct in: `eLearning/protected/config/database.php`
