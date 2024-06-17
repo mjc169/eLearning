@@ -132,17 +132,44 @@ class Account extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function beforeSave()
+	{
+		if ($this->isNewRecord)
+			$this->date_created = date('Y-m-d H:i:s');
+
+		$this->date_updated = date('Y-m-d H:i:s');
+
+		return parent::beforeSave();
+	}
+
 	public function isAccountType(int $account_type): bool
 	{
 		return $this->account_type === $account_type;
 	}
 
-	function generateRandomStringWithUniqid(int $length = 10): string
+	public static function generateRandomStringWithUniqid(int $length = 10): string
 	{
 		// Generate a unique ID with more entropy (true argument)
 		$uniqId = uniqid('', true);
 
 		// Extract and return the first 10 characters
 		return substr($uniqId, 0, $length);
+	}
+
+	public function getAccountTypeLabel()
+	{
+		if ($this->account_type === self::ACCOUNT_TYPE_ADMIN)
+			return 'Admin';
+
+		if ($this->account_type === self::ACCOUNT_TYPE_TEACHER)
+			return 'Teacher';
+
+		if ($this->account_type === self::ACCOUNT_TYPE_STUDENT)
+			return 'Student';
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

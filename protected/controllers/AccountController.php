@@ -67,6 +67,8 @@ class AccountController extends Controller
 
 		if (isset($_POST['Account'])) {
 			$model->attributes = $_POST['Account'];
+			$model->salt = Account::generateRandomStringWithUniqid();
+			$model->password = password_hash($_POST['Account']['password'] . $model->salt, PASSWORD_DEFAULT);
 			if ($model->save())
 				$this->redirect(array('view', 'id' => $model->id));
 		}
@@ -84,12 +86,18 @@ class AccountController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
-
+		$oldPassword = $model->password;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if (isset($_POST['Account'])) {
 			$model->attributes = $_POST['Account'];
+
+			if ($oldPassword !== $_POST['Account']['password']) {
+				$model->salt = Account::generateRandomStringWithUniqid();
+				$model->password = $this->passwordHash($_POST['Account']['password'], $model->salt);
+			}
+
 			if ($model->save())
 				$this->redirect(array('view', 'id' => $model->id));
 		}
@@ -99,6 +107,10 @@ class AccountController extends Controller
 		));
 	}
 
+	private function passwordHash(string $password, $salt)
+	{
+		return password_hash($password . $salt, PASSWORD_DEFAULT);
+	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
