@@ -24,6 +24,9 @@
  */
 class Account extends CActiveRecord
 {
+	const ACCOUNT_TYPE_ADMIN = 1;
+	const ACCOUNT_TYPE_TEACHER = 2;
+	const ACCOUNT_TYPE_STUDENT = 3;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -40,13 +43,13 @@ class Account extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, email_address, salt, account_type, date_created, date_updated', 'required'),
-			array('account_type, status', 'numerical', 'integerOnly'=>true),
-			array('username, email_address', 'length', 'max'=>128),
-			array('password, salt', 'length', 'max'=>255),
+			array('username, password, email_address, account_type', 'required'),
+			array('account_type, status', 'numerical', 'integerOnly' => true),
+			array('username, email_address', 'length', 'max' => 128),
+			array('password, salt', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, password, email_address, salt, account_type, status, date_created, date_updated', 'safe', 'on'=>'search'),
+			array('id, username, password, email_address, salt, account_type, status, date_created, date_updated', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -101,20 +104,20 @@ class Account extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('email_address',$this->email_address,true);
-		$criteria->compare('salt',$this->salt,true);
-		$criteria->compare('account_type',$this->account_type);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('date_created',$this->date_created,true);
-		$criteria->compare('date_updated',$this->date_updated,true);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('username', $this->username, true);
+		$criteria->compare('password', $this->password, true);
+		$criteria->compare('email_address', $this->email_address, true);
+		$criteria->compare('salt', $this->salt, true);
+		$criteria->compare('account_type', $this->account_type);
+		$criteria->compare('status', $this->status);
+		$criteria->compare('date_created', $this->date_created, true);
+		$criteria->compare('date_updated', $this->date_updated, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -124,8 +127,22 @@ class Account extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Account the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function isAccountType(int $account_type): bool
+	{
+		return $this->account_type === $account_type;
+	}
+
+	function generateRandomStringWithUniqid(int $length = 10): string
+	{
+		// Generate a unique ID with more entropy (true argument)
+		$uniqId = uniqid('', true);
+
+		// Extract and return the first 10 characters
+		return substr($uniqId, 0, $length);
 	}
 }
