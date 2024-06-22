@@ -32,12 +32,12 @@ class Subject extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('subject_code, subject, description', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('subject_code', 'length', 'max'=>128),
-			array('subject', 'length', 'max'=>255),
+			array('status', 'numerical', 'integerOnly' => true),
+			array('subject_code', 'length', 'max' => 128),
+			array('subject', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, subject_code, subject, description, status', 'safe', 'on'=>'search'),
+			array('id, subject_code, subject, description, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -83,16 +83,16 @@ class Subject extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('subject_code',$this->subject_code,true);
-		$criteria->compare('subject',$this->subject,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('subject_code', $this->subject_code, true);
+		$criteria->compare('subject', $this->subject, true);
+		$criteria->compare('description', $this->description, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -102,8 +102,19 @@ class Subject extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Subject the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function dataList()
+	{
+		$models = self::model()->findAll();
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
+		}
 	}
 }

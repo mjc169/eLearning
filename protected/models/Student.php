@@ -36,12 +36,12 @@ class Student extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('account_id, lastname, firstname, gender, year_level, section', 'required'),
-			array('account_id, gender, year_level, section', 'numerical', 'integerOnly'=>true),
-			array('lastname, firstname, middlename', 'length', 'max'=>255),
+			array('lastname, firstname, gender, year_level, section', 'required'),
+			array('account_id, gender, year_level, section', 'numerical', 'integerOnly' => true),
+			array('lastname, firstname, middlename', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, account_id, lastname, firstname, middlename, gender, year_level, section', 'safe', 'on'=>'search'),
+			array('id, account_id, lastname, firstname, middlename, gender, year_level, section', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -92,19 +92,19 @@ class Student extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('account_id',$this->account_id);
-		$criteria->compare('lastname',$this->lastname,true);
-		$criteria->compare('firstname',$this->firstname,true);
-		$criteria->compare('middlename',$this->middlename,true);
-		$criteria->compare('gender',$this->gender);
-		$criteria->compare('year_level',$this->year_level);
-		$criteria->compare('section',$this->section);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('account_id', $this->account_id);
+		$criteria->compare('lastname', $this->lastname, true);
+		$criteria->compare('firstname', $this->firstname, true);
+		$criteria->compare('middlename', $this->middlename, true);
+		$criteria->compare('gender', $this->gender);
+		$criteria->compare('year_level', $this->year_level);
+		$criteria->compare('section', $this->section);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -114,8 +114,27 @@ class Student extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Student the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function dataList()
+	{
+		$models = self::model()->findAll();
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
+		}
+	}
+
+	public static function genderList()
+	{
+		return [
+			1 => "Male",
+			2 => "Female"
+		];
 	}
 }

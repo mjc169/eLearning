@@ -1,6 +1,6 @@
 <?php
 
-class AccountController extends Controller
+class StudentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -19,14 +19,9 @@ class AccountController extends Controller
 		);
 	}
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
 	public function accessRules()
 	{
-		if (Yii::app()->user->isGuest || !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)) {
+		if (Yii::app()->user->isGuest || !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
 			throw new CHttpException(401, 'You are not authorized to perform this action. For Admin only');
 		}
 
@@ -60,25 +55,35 @@ class AccountController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$student = new Student;
 		$account = new Account;
-		$account->account_type = ACcount::ACCOUNT_TYPE_ADMIN;
+		$account->account_type = Account::ACCOUNT_TYPE_STUDENT;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($account);
+		// $this->performAjaxValidation($student);
 
-		if (isset($_POST['Account'])) {
-			$account->attributes = $_POST['Account'];
+		if (isset($_POST['Student']) || isset($_POST['Account'])) {
+			if (isset($_POST['Student']))
+				$student->attributes = $_POST['Student'];
 
-			if ($account->validate()) {
+			if (isset($_POST['Account']))
+				$account->attributes = $_POST['Account'];
+
+			if ($account->validate() && $student->validate()) {
 				$account->salt = Account::generateRandomStringWithUniqid();
 				$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
 				$account->save(false);
-				$this->redirect(array('view', 'id' => $account->id));
+
+				$student->account_id = $account->id;
+				$student->save(false);
+
+				$this->redirect(array('view', 'id' => $student->id));
 			}
 		}
 
 		$this->render('create', array(
-			'account' => $account,
+			'student' => $student,
+			'account' => $account
 		));
 	}
 
@@ -87,34 +92,43 @@ class AccountController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
+
 	public function actionUpdate($id)
 	{
-		$account = $this->loadModel($id);
+		$student = $this->loadModel($id);
+		$account = $student->account;
 		$oldPassword = $account->password;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Account'])) {
-			$account->attributes = $_POST['Account'];
 
-			if ($oldPassword !== $_POST['Account']['password']) {
-				$account->salt = Account::generateRandomStringWithUniqid();
-				$account->password = $this->passwordHash($_POST['Account']['password'], $account->salt);
+		if (isset($_POST['Student']) || isset($_POST['Account'])) {
+			if (isset($_POST['Student']))
+				$student->attributes = $_POST['Student'];
+
+			if (isset($_POST['Account']))
+				$account->attributes = $_POST['Account'];
+
+			if ($account->validate() && $student->validate()) {
+
+				if ($oldPassword !== $_POST['Account']['password']) {
+					$model->salt = Account::generateRandomStringWithUniqid();
+					$model->password = $this->passwordHash($_POST['Account']['password'], $model->salt);
+				}
+
+				$account->save();
+				$student->save();
+
+				$this->redirect(array('view', 'id' => $student->id));
 			}
-
-			if ($account->save())
-				$this->redirect(array('view', 'id' => $account->id));
 		}
 
 		$this->render('update', array(
+			'student' => $student,
 			'account' => $account,
 		));
 	}
 
-	private function passwordHash(string $password, $salt)
-	{
-		return password_hash($password . $salt, PASSWORD_DEFAULT);
-	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -134,7 +148,7 @@ class AccountController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('Account');
+		$dataProvider = new CActiveDataProvider('Student');
 		$this->render('index', array(
 			'dataProvider' => $dataProvider,
 		));
@@ -144,12 +158,12 @@ class AccountController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Account the loaded model
+	 * @return Student the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model = Account::model()->findByPk($id);
+		$model = Student::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
@@ -157,11 +171,11 @@ class AccountController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Account $model the model to be validated
+	 * @param Student $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'account-form') {
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'student-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

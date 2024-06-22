@@ -30,11 +30,11 @@ class YearLevel extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('year_level', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('year_level', 'length', 'max'=>255),
+			array('status', 'numerical', 'integerOnly' => true),
+			array('year_level', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, year_level, status', 'safe', 'on'=>'search'),
+			array('id, year_level, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -78,14 +78,14 @@ class YearLevel extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('year_level',$this->year_level,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('year_level', $this->year_level, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -95,8 +95,27 @@ class YearLevel extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return YearLevel the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getAllData()
+	{
+	}
+
+	public static function dataList()
+	{
+		$models = self::model()->findAll(array(
+			'order' => 'id ASC',
+		));
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = $item->year_level;
+		}
+
+		return $lookupOptions;
 	}
 }

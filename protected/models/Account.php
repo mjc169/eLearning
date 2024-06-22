@@ -43,6 +43,7 @@ class Account extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('username, email_address', 'unique'),
 			array('username, password, email_address, account_type', 'required'),
 			array('account_type, status', 'numerical', 'integerOnly' => true),
 			array('username, email_address', 'length', 'max' => 128),

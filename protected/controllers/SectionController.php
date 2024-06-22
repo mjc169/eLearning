@@ -1,6 +1,6 @@
 <?php
 
-class AccountController extends Controller
+class SectionController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -60,25 +60,19 @@ class AccountController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$account = new Account;
-		$account->account_type = ACcount::ACCOUNT_TYPE_ADMIN;
+		$model = new Section;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($account);
+		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Account'])) {
-			$account->attributes = $_POST['Account'];
-
-			if ($account->validate()) {
-				$account->salt = Account::generateRandomStringWithUniqid();
-				$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
-				$account->save(false);
-				$this->redirect(array('view', 'id' => $account->id));
-			}
+		if (isset($_POST['Section'])) {
+			$model->attributes = $_POST['Section'];
+			if ($model->save())
+				$this->redirect(array('view', 'id' => $model->id));
 		}
 
 		$this->render('create', array(
-			'account' => $account,
+			'model' => $model,
 		));
 	}
 
@@ -89,32 +83,22 @@ class AccountController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$account = $this->loadModel($id);
-		$oldPassword = $account->password;
+		$model = $this->loadModel($id);
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Account'])) {
-			$account->attributes = $_POST['Account'];
-
-			if ($oldPassword !== $_POST['Account']['password']) {
-				$account->salt = Account::generateRandomStringWithUniqid();
-				$account->password = $this->passwordHash($_POST['Account']['password'], $account->salt);
-			}
-
-			if ($account->save())
-				$this->redirect(array('view', 'id' => $account->id));
+		if (isset($_POST['Section'])) {
+			$model->attributes = $_POST['Section'];
+			if ($model->save())
+				$this->redirect(array('view', 'id' => $model->id));
 		}
 
 		$this->render('update', array(
-			'account' => $account,
+			'model' => $model,
 		));
 	}
 
-	private function passwordHash(string $password, $salt)
-	{
-		return password_hash($password . $salt, PASSWORD_DEFAULT);
-	}
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -134,7 +118,7 @@ class AccountController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('Account');
+		$dataProvider = new CActiveDataProvider('Section');
 		$this->render('index', array(
 			'dataProvider' => $dataProvider,
 		));
@@ -144,12 +128,12 @@ class AccountController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Account the loaded model
+	 * @return Section the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model = Account::model()->findByPk($id);
+		$model = Section::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
@@ -157,11 +141,11 @@ class AccountController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Account $model the model to be validated
+	 * @param Section $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'account-form') {
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'section-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}

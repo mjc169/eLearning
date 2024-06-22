@@ -27,11 +27,11 @@ class QuestionTaxonomy extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('type', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('type', 'length', 'max'=>255),
+			array('status', 'numerical', 'integerOnly' => true),
+			array('type', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, status', 'safe', 'on'=>'search'),
+			array('id, type, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -42,8 +42,7 @@ class QuestionTaxonomy extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -74,14 +73,14 @@ class QuestionTaxonomy extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('type',$this->type,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('type', $this->type, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -91,8 +90,19 @@ class QuestionTaxonomy extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return QuestionTaxonomy the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public static function dataList()
+	{
+		$models = self::model()->findAll();
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = $item->type;
+		}
 	}
 }

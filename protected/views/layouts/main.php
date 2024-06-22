@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html>
 
+<?php Yii::app()->clientScript->registerCoreScript('jquery', CClientScript::POS_END); ?>
+
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="language" content="en">
@@ -31,7 +33,21 @@
 			<?php $this->widget('zii.widgets.CMenu', array(
 				'items' => array(
 					array('label' => 'Home', 'url' => array('/site/index')),
-					array('label' => 'Account', 'url' => array('/account/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
+
+					//FOR ADMIN ONLY
+					array('label' => 'Accounts', 'url' => array('/account/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
+					array('label' => 'Sections', 'url' => array('/section/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
+
+					//FOR TEACHER ONLY
+					array('label' => 'Students', 'url' => array('/student/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)),
+					array('label' => 'Questions', 'url' => array('/question/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
+
+					//FOR STUDENTS ONLY
+					/**
+					 * 
+					 */
+
+					//GENERAL USERS
 					array('label' => 'About', 'url' => array('/site/page', 'view' => 'about')),
 					array('label' => 'Contact', 'url' => array('/site/contact')),
 					array('label' => 'Login', 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest),

@@ -33,11 +33,11 @@ class Teacher extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('account_id, lastname, firstname, gender', 'required'),
-			array('account_id, gender', 'numerical', 'integerOnly'=>true),
-			array('lastname, firstname, middlename', 'length', 'max'=>255),
+			array('account_id, gender', 'numerical', 'integerOnly' => true),
+			array('lastname, firstname, middlename', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, account_id, lastname, firstname, middlename, gender', 'safe', 'on'=>'search'),
+			array('id, account_id, lastname, firstname, middlename, gender', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -84,17 +84,17 @@ class Teacher extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('account_id',$this->account_id);
-		$criteria->compare('lastname',$this->lastname,true);
-		$criteria->compare('firstname',$this->firstname,true);
-		$criteria->compare('middlename',$this->middlename,true);
-		$criteria->compare('gender',$this->gender);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('account_id', $this->account_id);
+		$criteria->compare('lastname', $this->lastname, true);
+		$criteria->compare('firstname', $this->firstname, true);
+		$criteria->compare('middlename', $this->middlename, true);
+		$criteria->compare('gender', $this->gender);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -104,7 +104,7 @@ class Teacher extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Teacher the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
