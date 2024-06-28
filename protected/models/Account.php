@@ -145,7 +145,7 @@ class Account extends CActiveRecord
 
 	public function isAccountType(int $account_type): bool
 	{
-		return $this->account_type === $account_type;
+		return (int)$this->account_type === $account_type;
 	}
 
 	public static function generateRandomStringWithUniqid(int $length = 10): string
