@@ -28,7 +28,7 @@ class QuestionChoice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('question_id, is_correct, choice', 'required'),
+			array('is_correct, choice', 'required'),
 			array('question_id, is_correct, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -43,7 +43,9 @@ class QuestionChoice extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array();
+		return array(
+			'question' => array(self::BELONGS_TO, 'Question', 'question_id'),
+		);
 	}
 
 	/**

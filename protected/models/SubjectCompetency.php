@@ -97,6 +97,19 @@ class SubjectCompetency extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public static function dataList()
+	{
+		$models = self::model()->findAll();
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = $item->learning_competency;
+		}
+
+		return $lookupOptions;
+	}
+
 	public function getStatusLabel()
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';

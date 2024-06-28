@@ -104,6 +104,8 @@ class QuestionTaxonomy extends CActiveRecord
 		foreach ($models as $item) {
 			$lookupOptions[$item->id] = $item->type;
 		}
+
+		return $lookupOptions;
 	}
 
 	public function getStatusLabel()

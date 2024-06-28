@@ -65,7 +65,6 @@
 
 </div><!-- form -->
 
-<?php var_dump($_POST); ?>
 <script>
 	$(document).ready(function() {
 		const formData = <?php echo json_encode($_POST ?? []); ?>;

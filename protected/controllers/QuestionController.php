@@ -6,7 +6,7 @@ class QuestionController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout = '//layouts/column2';
 
 	/**
 	 * @return array action filters
@@ -26,17 +26,19 @@ class QuestionController extends Controller
 	 */
 	public function accessRules()
 	{
-		if (Yii::app()->user->isGuest || !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
+		if (Yii::app()->user->isGuest || Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) {
 			throw new CHttpException(401, 'You are not authorized to perform this action. For Teacher only');
 		}
 
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'create','update', 'admin','delete', 'make'),
-				'users'=>array('@'),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions' => array('index', 'view', 'create', 'update', 'admin', 'delete'),
+				'users' => array('@'),
 			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
+			array(
+				'deny',  // deny all users
+				'users' => array('*'),
 			),
 		);
 	}
@@ -47,8 +49,8 @@ class QuestionController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+		$this->render('view', array(
+			'model' => $this->loadModel($id),
 		));
 	}
 
@@ -58,20 +60,21 @@ class QuestionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Question;
-
+		$model = new Question;
+		$model->choices = ['', '', '', ''];
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Question']))
-		{
-			$model->attributes=$_POST['Question'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+		if (isset($_POST['Question'])) {
+			$model->attributes = $_POST['Question'];
+			if ($model->save()) {
+				$model->validateChoices('choices', '', true);
+				$this->redirect(array('view', 'id' => $model->id));
+			}
 		}
 
-		$this->render('create',array(
-			'model'=>$model,
+		$this->render('create', array(
+			'model' => $model,
 		));
 	}
 
@@ -82,20 +85,21 @@ class QuestionController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+		$model = $this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Question']))
-		{
-			$model->attributes=$_POST['Question'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+		if (isset($_POST['Question'])) {
+			$model->attributes = $_POST['Question'];
+			if ($model->save()) {
+				$model->validateChoices('choices', '', true);
+				$this->redirect(array('view', 'id' => $model->id));
+			}
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
+		$this->render('update', array(
+			'model' => $model,
 		));
 	}
 
@@ -109,7 +113,7 @@ class QuestionController extends Controller
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
+		if (!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
@@ -118,9 +122,9 @@ class QuestionController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Question');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+		$dataProvider = new CActiveDataProvider('Question');
+		$this->render('index', array(
+			'dataProvider' => $dataProvider,
 		));
 	}
 
@@ -129,32 +133,15 @@ class QuestionController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Question('search');
+		$model = new Question('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Question']))
-			$model->attributes=$_GET['Question'];
+		if (isset($_GET['Question']))
+			$model->attributes = $_GET['Question'];
 
-		$this->render('admin',array(
-			'model'=>$model,
+		$this->render('admin', array(
+			'model' => $model,
 		));
 	}
-
-	public function actionMake() {
-		$model = new QuestionForm;
-		$model->choices = ['','','',''];
-		if (isset($_POST['QuestionForm'])) {
-		  $model->attributes = $_POST['QuestionForm'];
-		  if ($model->validate()) {
-			// Save the form data (question and choices) to your database
-			// ...
-	  
-			// Redirect to success page or display success message
-			$this->redirect(array('success'));
-		  }
-		}
-	  
-		$this->render('_questionForm', array('model'=>$model));
-	  }
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -165,9 +152,9 @@ class QuestionController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Question::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+		$model = Question::model()->findByPk($id);
+		if ($model === null)
+			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
 	}
 
@@ -177,8 +164,7 @@ class QuestionController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='question-form')
-		{
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'question-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
