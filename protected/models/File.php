@@ -119,4 +119,15 @@ class File extends CActiveRecord
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
+
+	public function getShortenedBvalue()
+	{
+		$max_length = "50";
+		$original_string = $this->bvalue;
+		if (strlen($original_string) > $max_length) {
+			return substr($original_string, 0, $max_length) . "...";
+		} else {
+			return $original_string;
+		}
+	}
 }
