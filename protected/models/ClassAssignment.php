@@ -34,10 +34,10 @@ class ClassAssignment extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('subject_id, student_id, teacher_id', 'required'),
-			array('subject_id, student_id, teacher_id, status', 'numerical', 'integerOnly'=>true),
+			array('subject_id, student_id, teacher_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, subject_id, student_id, teacher_id, status', 'safe', 'on'=>'search'),
+			array('id, subject_id, student_id, teacher_id, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -85,16 +85,16 @@ class ClassAssignment extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('subject_id',$this->subject_id);
-		$criteria->compare('student_id',$this->student_id);
-		$criteria->compare('teacher_id',$this->teacher_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('subject_id', $this->subject_id);
+		$criteria->compare('student_id', $this->student_id);
+		$criteria->compare('teacher_id', $this->teacher_id);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -104,8 +104,13 @@ class ClassAssignment extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return ClassAssignment the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

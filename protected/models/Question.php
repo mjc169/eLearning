@@ -31,10 +31,10 @@ class Question extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('question, taxonomy_id, competency_id', 'required'),
-			array('question_type, file_id, taxonomy_id, competency_id, status', 'numerical', 'integerOnly'=>true),
+			array('question_type, file_id, taxonomy_id, competency_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, question, question_type, file_id, taxonomy_id, competency_id, status', 'safe', 'on'=>'search'),
+			array('id, question, question_type, file_id, taxonomy_id, competency_id, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -45,8 +45,7 @@ class Question extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -81,18 +80,18 @@ class Question extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('question',$this->question,true);
-		$criteria->compare('question_type',$this->question_type);
-		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('taxonomy_id',$this->taxonomy_id);
-		$criteria->compare('competency_id',$this->competency_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('question', $this->question, true);
+		$criteria->compare('question_type', $this->question_type);
+		$criteria->compare('file_id', $this->file_id);
+		$criteria->compare('taxonomy_id', $this->taxonomy_id);
+		$criteria->compare('competency_id', $this->competency_id);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -102,8 +101,13 @@ class Question extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Question the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

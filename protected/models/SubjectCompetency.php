@@ -28,10 +28,10 @@ class SubjectCompetency extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('subject_id, learning_competency', 'required'),
-			array('subject_id, status', 'numerical', 'integerOnly'=>true),
+			array('subject_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, subject_id, learning_competency, status', 'safe', 'on'=>'search'),
+			array('id, subject_id, learning_competency, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -42,8 +42,7 @@ class SubjectCompetency extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -75,15 +74,15 @@ class SubjectCompetency extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('subject_id',$this->subject_id);
-		$criteria->compare('learning_competency',$this->learning_competency,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('subject_id', $this->subject_id);
+		$criteria->compare('learning_competency', $this->learning_competency, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -93,8 +92,13 @@ class SubjectCompetency extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return SubjectCompetency the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

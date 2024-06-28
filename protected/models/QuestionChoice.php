@@ -29,10 +29,10 @@ class QuestionChoice extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('question_id, is_correct, choice', 'required'),
-			array('question_id, is_correct, status', 'numerical', 'integerOnly'=>true),
+			array('question_id, is_correct, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, question_id, is_correct, choice, status', 'safe', 'on'=>'search'),
+			array('id, question_id, is_correct, choice, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -43,8 +43,7 @@ class QuestionChoice extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -77,16 +76,16 @@ class QuestionChoice extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('question_id',$this->question_id);
-		$criteria->compare('is_correct',$this->is_correct);
-		$criteria->compare('choice',$this->choice,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('question_id', $this->question_id);
+		$criteria->compare('is_correct', $this->is_correct);
+		$criteria->compare('choice', $this->choice, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -96,8 +95,13 @@ class QuestionChoice extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return QuestionChoice the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

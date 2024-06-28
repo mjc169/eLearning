@@ -35,12 +35,12 @@ class File extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('uploader_id, original_filename, file_extension, e_filename, bvalue', 'required'),
-			array('uploader_id, status', 'numerical', 'integerOnly'=>true),
-			array('original_filename, e_filename', 'length', 'max'=>255),
-			array('file_extension', 'length', 'max'=>10),
+			array('uploader_id, status', 'numerical', 'integerOnly' => true),
+			array('original_filename, e_filename', 'length', 'max' => 255),
+			array('file_extension', 'length', 'max' => 10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, uploader_id, original_filename, file_extension, e_filename, bvalue, status', 'safe', 'on'=>'search'),
+			array('id, uploader_id, original_filename, file_extension, e_filename, bvalue, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -89,18 +89,18 @@ class File extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('uploader_id',$this->uploader_id);
-		$criteria->compare('original_filename',$this->original_filename,true);
-		$criteria->compare('file_extension',$this->file_extension,true);
-		$criteria->compare('e_filename',$this->e_filename,true);
-		$criteria->compare('bvalue',$this->bvalue,true);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('uploader_id', $this->uploader_id);
+		$criteria->compare('original_filename', $this->original_filename, true);
+		$criteria->compare('file_extension', $this->file_extension, true);
+		$criteria->compare('e_filename', $this->e_filename, true);
+		$criteria->compare('bvalue', $this->bvalue, true);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -110,8 +110,13 @@ class File extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return File the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

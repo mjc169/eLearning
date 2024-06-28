@@ -105,4 +105,9 @@ class QuestionTaxonomy extends CActiveRecord
 			$lookupOptions[$item->id] = $item->type;
 		}
 	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
 }

@@ -32,10 +32,10 @@ class FileAssignment extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('file_id, receiver_id', 'required'),
-			array('file_id, receiver_id, status', 'numerical', 'integerOnly'=>true),
+			array('file_id, receiver_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, file_id, receiver_id, status', 'safe', 'on'=>'search'),
+			array('id, file_id, receiver_id, status', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -81,15 +81,15 @@ class FileAssignment extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('receiver_id',$this->receiver_id);
-		$criteria->compare('status',$this->status);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('file_id', $this->file_id);
+		$criteria->compare('receiver_id', $this->receiver_id);
+		$criteria->compare('status', $this->status);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -99,8 +99,13 @@ class FileAssignment extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return FileAssignment the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
 	}
 }

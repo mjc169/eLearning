@@ -117,4 +117,9 @@ class Subject extends CActiveRecord
 			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
 		}
 	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
 }

@@ -117,4 +117,9 @@ class Section extends CActiveRecord
 
 		return $lookupOptions;
 	}
+
+	public function getStatusLabel()
+	{
+		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
 }
