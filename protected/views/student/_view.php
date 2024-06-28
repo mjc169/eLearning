@@ -3,41 +3,34 @@
 /* @var $data Student */
 ?>
 
-<div class="view">
+<tr class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:
+		<?php echo CHtml::link(CHtml::encode($data->account_id), array('view', 'id' => $data->id)); ?>
+	</td>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('account_id')); ?>:</b>
-	<?php echo CHtml::encode($data->account_id); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->lastname); ?>
+	</td>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('lastname')); ?>:</b>
-	<?php echo CHtml::encode($data->lastname); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->firstname); ?>
+	</td>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('firstname')); ?>:</b>
-	<?php echo CHtml::encode($data->firstname); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->middlename); ?>
+	</td>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('middlename')); ?>:</b>
-	<?php echo CHtml::encode($data->middlename); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->gender); ?>
+		<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('gender')); ?>:</b>
-	<?php echo CHtml::encode($data->gender); ?>
-	<br />
+	<td>
+		<?php echo CHtml::encode($data->year_level); ?>
+	</td>
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('year_level')); ?>:</b>
-	<?php echo CHtml::encode($data->year_level); ?>
-	<br />
-
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('section')); ?>:</b>
-	<?php echo CHtml::encode($data->section); ?>
-	<br />
-
-	*/ ?>
-
-</div>
+	<td>
+		<?php echo CHtml::encode($data->section); ?>
+	</td>
+</tr>

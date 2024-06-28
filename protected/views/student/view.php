@@ -32,3 +32,5 @@ $this->menu = array(
 		'section',
 	),
 )); ?>
+
+<?php echo CHtml::link(CHtml::encode('Update Student'), array('student/update', 'id' => $model->id)); ?>

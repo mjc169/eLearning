@@ -2,19 +2,56 @@
 /* @var $this StudentController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = array(
 	'Students',
 );
 
-$this->menu=array(
-	array('label'=>'Create Student', 'url'=>array('create')),
-	array('label'=>'Manage Student', 'url'=>array('admin')),
+$this->menu = array(
+	array('label' => 'Create Student', 'url' => array('create')),
+	array('label' => 'Manage Student', 'url' => array('admin')),
 );
 ?>
 
 <h1>Students</h1>
 
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+	<div class="card-header py-3">
+		<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+	</div>
+	<div class="card-body">
+		<div class="table-responsive">
+			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Lastname</th>
+						<th>Firstname</th>
+						<th>Middlename</th>
+						<th>Gender</th>
+						<th>Year Level</th>
+						<th>Section</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>ID</th>
+						<th>Lastname</th>
+						<th>Firstname</th>
+						<th>Middlename</th>
+						<th>Gender</th>
+						<th>Year Level</th>
+						<th>Section</th>
+					</tr>
+				</tfoot>
+				<tbody>
+
+					<?php $this->widget('zii.widgets.CListView', array(
+						'dataProvider' => $dataProvider,
+						'itemView' => '_view',
+					)); ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
