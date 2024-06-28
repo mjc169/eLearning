@@ -24,18 +24,58 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
             <span>Students</span>
         </a>
-        <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseStudent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Create</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Student List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Add Student</a>
             </div>
         </div>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Classes</span>
+        </a>
+        <div id="collapseClasses" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Class List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Create Class</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseQuizzes" aria-expanded="false" aria-controls="collapseQuizzes">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Quizzes</span>
+        </a>
+        <div id="collapseQuizzes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Quiz List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Assign Quiz</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Create Quiz</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFiles" aria-expanded="false" aria-controls="collapseFiles">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Files</span>
+        </a>
+        <div id="collapseFiles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">All Files</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Assign Files</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Upload File</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
