@@ -66,8 +66,8 @@ class Account extends CActiveRecord
 			'classAssignments1' => array(self::HAS_MANY, 'ClassAssignment', 'teacher_id'),
 			'files' => array(self::HAS_MANY, 'File', 'uploader_id'),
 			'fileAssignments' => array(self::HAS_MANY, 'FileAssignment', 'receiver_id'),
-			'students' => array(self::HAS_MANY, 'Student', 'account_id'),
-			'teachers' => array(self::HAS_MANY, 'Teacher', 'account_id'),
+			'student' => array(self::HAS_ONE, 'Student', 'account_id'),
+			'teacher' => array(self::HAS_ONE, 'Teacher', 'account_id'),
 		);
 	}
 
@@ -169,8 +169,28 @@ class Account extends CActiveRecord
 			return 'Student';
 	}
 
+	public static function genderList()
+	{
+		return [
+			1 => "Male",
+			2 => "Female"
+		];
+	}
+
 	public function getStatusLabel()
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
+
+	public function getRelatedModel()
+	{
+		if ($this->account_type === self::ACCOUNT_TYPE_ADMIN)
+			return null;
+
+		if ($this->account_type === self::ACCOUNT_TYPE_TEACHER)
+			return $this->teacher();
+
+		if ($this->account_type === self::ACCOUNT_TYPE_STUDENT)
+			return $this->student();
 	}
 }

@@ -32,7 +32,7 @@ class Teacher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('account_id, lastname, firstname, gender', 'required'),
+			array('lastname, firstname, gender', 'required'),
 			array('account_id, gender', 'numerical', 'integerOnly' => true),
 			array('lastname, firstname, middlename', 'length', 'max' => 255),
 			// The following rule is used by search().

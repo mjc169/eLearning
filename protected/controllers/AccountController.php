@@ -33,7 +33,7 @@ class AccountController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete'),
+				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial'),
 				'users' => array('@'),
 			),
 			array(
@@ -54,6 +54,46 @@ class AccountController extends Controller
 		));
 	}
 
+	public function validateRelatedModel(&$account, &$relatedModel, &$valid)
+	{
+		if (isset($_POST['Teacher'])) {
+
+			if ($relatedModel === null || !($relatedModel instanceof Teacher)) {
+				$relatedModel = new Teacher;
+			}
+
+			$relatedModel->attributes = $_POST['Teacher'];
+
+			$valid = $valid && $relatedModel->validate();
+		}
+
+		if (isset($_POST['Student'])) {
+			if ($relatedModel === null || !($relatedModel instanceof Student)) {
+				$relatedModel = new Student;
+			}
+			$relatedModel->attributes = $_POST['Student'];
+
+			$valid = $valid && $relatedModel->validate();
+		}
+
+		if (isset($_POST['Account']) && $valid) {
+
+			if (!$account->isNewRecord) {
+				if ($account->student())
+					$account->student()->delete();
+
+				if ($account->teacher())
+					$account->teacher()->delete();
+			}
+
+			$account->save(false);
+			$relatedModel->account_id = $account->id;
+			$relatedModel->save(false);
+
+			$this->redirect(array('view', 'id' => $account->id));
+		}
+	}
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -61,7 +101,8 @@ class AccountController extends Controller
 	public function actionCreate()
 	{
 		$account = new Account;
-		$account->account_type = ACcount::ACCOUNT_TYPE_ADMIN;
+		$relatedModel = new Teacher; //can be Student
+		$valid = true;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($account);
@@ -69,16 +110,16 @@ class AccountController extends Controller
 		if (isset($_POST['Account'])) {
 			$account->attributes = $_POST['Account'];
 
-			if ($account->validate()) {
-				$account->salt = Account::generateRandomStringWithUniqid();
-				$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
-				$account->save(false);
-				$this->redirect(array('view', 'id' => $account->id));
-			}
+			$valid = $valid && $account->validate();
+			$account->salt = Account::generateRandomStringWithUniqid();
+			$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
 		}
+
+		$this->validateRelatedModel($account, $relatedModel, $valid);
 
 		$this->render('create', array(
 			'account' => $account,
+			'relatedModel' => $relatedModel ?? null,
 		));
 	}
 
@@ -91,23 +132,27 @@ class AccountController extends Controller
 	{
 		$account = $this->loadModel($id);
 		$oldPassword = $account->password;
+		$relatedModel = $account->getRelatedModel();
+		$valid = true;
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if (isset($_POST['Account'])) {
 			$account->attributes = $_POST['Account'];
 
+			$valid = $valid && $account->validate();
 			if ($oldPassword !== $_POST['Account']['password']) {
 				$account->salt = Account::generateRandomStringWithUniqid();
 				$account->password = $this->passwordHash($_POST['Account']['password'], $account->salt);
 			}
-
-			if ($account->save())
-				$this->redirect(array('view', 'id' => $account->id));
 		}
+
+		$this->validateRelatedModel($account, $relatedModel, $valid);
 
 		$this->render('update', array(
 			'account' => $account,
+			'relatedModel' => $relatedModel ?? new Teacher,
 		));
 	}
 
@@ -165,5 +210,51 @@ class AccountController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	public function actionStudentFormPartial($id = null)
+	{
+		$student = new Student;
+
+		if ($id !== null) {
+			$account = $this->loadModel($id);
+			$student = $account->getRelatedModel();
+		}
+
+		if (!($student instanceof Student)) {
+			$student = new Student;
+		}
+
+		if (isset($_POST['Student'])) {
+			$student->attributes = $_POST['Student'];
+			$student->validate();
+		}
+
+		$this->renderPartial('_studentForm', array(
+			'student' => $student
+		), false, true); // Don't include layout or scripts
+	}
+
+	public function actionTeacherFormPartial($id = null)
+	{
+		$teacher = new Teacher;
+
+		if ($id !== null) {
+			$account = $this->loadModel($id);
+			$teacher = $account->getRelatedModel();
+		}
+
+		if (!($teacher instanceof Teacher)) {
+			$teacher = new Teacher;
+		}
+
+		if (isset($_POST['Teacher'])) {
+			$teacher->attributes = $_POST['Teacher'];
+			$teacher->validate();
+		}
+
+		$this->renderPartial('_teacherForm', array(
+			'teacher' => $teacher
+		), false, true); // Don't include layout or scripts
 	}
 }

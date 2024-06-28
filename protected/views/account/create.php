@@ -16,4 +16,5 @@ $this->menu = array(
 
 <?php $this->renderPartial('_form', array(
 	'account' => $account,
+	'relatedModel' => $relatedModel,
 )); ?>

@@ -129,12 +129,4 @@ class Student extends CActiveRecord
 			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
 		}
 	}
-
-	public static function genderList()
-	{
-		return [
-			1 => "Male",
-			2 => "Female"
-		];
-	}
 }

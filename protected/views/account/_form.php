@@ -17,7 +17,7 @@
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary(array($account)); ?>
+	<?php echo $form->errorSummary(array($account, $relatedModel)); ?>
 
 	<fieldset>
 		<legend>Account</legend>
@@ -45,12 +45,78 @@
 			<?php echo $form->dropDownList($account, 'status', array('1' => 'Active', '0' => 'Inactive')); ?>
 			<?php echo $form->error($account, 'status'); ?>
 		</div>
+
+		<div class="row">
+			<?php echo $form->labelEx($account, 'account_type'); ?>
+			<?php echo $form->dropDownList($account, 'account_type', array(Account::ACCOUNT_TYPE_ADMIN => 'Admin', Account::ACCOUNT_TYPE_TEACHER => 'Teacher', Account::ACCOUNT_TYPE_STUDENT => 'Student')); ?>
+			<?php echo $form->error($account, 'account_type'); ?>
+		</div>
 	</fieldset>
 
+	<div id="partial-form">
+
+	</div>
+
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($account->isNewRecord ? 'Create Admin' : 'Save'); ?>
+		<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<?php var_dump($_POST); ?>
+<script>
+	$(document).ready(function() {
+		const formData = <?php echo json_encode($_POST ?? []); ?>;
+
+		$('#Account_account_type').on("change", function(event) {
+			const thisVal = parseInt($(this).val());
+
+			$('#partial-form').html("");
+
+			const isAdmin = thisVal === <?php echo Account::ACCOUNT_TYPE_ADMIN; ?>;
+			const isTeacher = thisVal === <?php echo Account::ACCOUNT_TYPE_TEACHER; ?>;
+			const isStudent = thisVal === <?php echo Account::ACCOUNT_TYPE_STUDENT; ?>;
+
+			if (isTeacher) {
+				renderTeacher(formData);
+			} else if (isStudent) {
+				renderPartialStudent(formData);
+			}
+		});
+
+		$('#Account_account_type').trigger("change");
+	});
+
+	function renderPartialStudent(formData) {
+
+		$.ajax({
+			url: '<?php echo Yii::app()->createUrl('account/studentFormPartial', array('id' => $account->id)); ?>',
+			type: 'POST', // Adjust based on your controller action
+			data: formData,
+			success: function(response) {
+				$('#partial-form').html(response);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.error('Error updating partial:', textStatus, errorThrown);
+				// Handle errors appropriately, e.g., display an error message
+			}
+		});
+	}
+
+	function renderTeacher(formData) {
+		$.ajax({
+			url: '<?php echo Yii::app()->createUrl('account/teacherFormPartial', array('id' => $account->id)); ?>',
+			type: 'POST', // Adjust based on your controller action
+			data: formData,
+			success: function(response) {
+				$('#partial-form').html(response);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.error('Error updating partial:', textStatus, errorThrown);
+				// Handle errors appropriately, e.g., display an error message
+			}
+		});
+	}
+</script>
