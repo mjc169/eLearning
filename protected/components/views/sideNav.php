@@ -56,9 +56,9 @@
         </a>
         <div id="collapseQuizzes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Quiz List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Assign Quiz</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Create Quiz</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/index'); ?>">Quiz List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/index'); ?>">Assign Quiz</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/create'); ?>">Create Quiz</a>
             </div>
         </div>
     </li>

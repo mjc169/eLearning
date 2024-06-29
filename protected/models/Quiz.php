@@ -34,11 +34,11 @@ class Quiz extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, instructions, time_limit, shuffle, limit_to_one, due_date, availability_date, lock_date', 'required'),
-			array('time_limit, shuffle, limit_to_one, lock_question', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>255),
+			array('time_limit, shuffle, limit_to_one, lock_question', 'numerical', 'integerOnly' => true),
+			array('title', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, instructions, time_limit, shuffle, limit_to_one, lock_question, due_date, availability_date, lock_date', 'safe', 'on'=>'search'),
+			array('id, title, instructions, time_limit, shuffle, limit_to_one, lock_question, due_date, availability_date, lock_date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -49,8 +49,7 @@ class Quiz extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -88,21 +87,21 @@ class Quiz extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('instructions',$this->instructions,true);
-		$criteria->compare('time_limit',$this->time_limit);
-		$criteria->compare('shuffle',$this->shuffle);
-		$criteria->compare('limit_to_one',$this->limit_to_one);
-		$criteria->compare('lock_question',$this->lock_question);
-		$criteria->compare('due_date',$this->due_date,true);
-		$criteria->compare('availability_date',$this->availability_date,true);
-		$criteria->compare('lock_date',$this->lock_date,true);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('title', $this->title, true);
+		$criteria->compare('instructions', $this->instructions, true);
+		$criteria->compare('time_limit', $this->time_limit);
+		$criteria->compare('shuffle', $this->shuffle);
+		$criteria->compare('limit_to_one', $this->limit_to_one);
+		$criteria->compare('lock_question', $this->lock_question);
+		$criteria->compare('due_date', $this->due_date, true);
+		$criteria->compare('availability_date', $this->availability_date, true);
+		$criteria->compare('lock_date', $this->lock_date, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -112,7 +111,7 @@ class Quiz extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Quiz the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
