@@ -177,6 +177,13 @@ class Account extends CActiveRecord
 		];
 	}
 
+	public function getGenderLabel()
+	{
+		$arr = self::genderList();
+		$relatedModel = $this->getRelatedModel();
+		return $arr[$relatedModel->gender];
+	}
+
 	public function getStatusLabel()
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';

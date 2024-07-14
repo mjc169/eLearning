@@ -23,14 +23,14 @@
 	</td>
 
 	<td>
-		<?php echo CHtml::encode($data->gender); ?>
+		<?php echo CHtml::encode($data->account->genderLabel); ?>
 		<br />
 
 	<td>
-		<?php echo CHtml::encode($data->year_level); ?>
+		<?php echo CHtml::encode($data->yearLevel->year_level); ?>
 	</td>
 
 	<td>
-		<?php echo CHtml::encode($data->section); ?>
+		<?php echo CHtml::encode($data->section0->section_code); ?>
 	</td>
 </tr>

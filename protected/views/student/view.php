@@ -27,9 +27,24 @@ $this->menu = array(
 		'lastname',
 		'firstname',
 		'middlename',
-		'gender',
-		'year_level',
-		'section',
+		array(
+			'name' => 'gender',
+			'value' => function ($data) {
+				return $data->account->genderLabel;
+			},
+		),
+		array(
+			'name' => 'year_level',
+			'value' => function ($data) {
+				return $data->yearLevel->year_level;
+			},
+		),
+		array(
+			'name' => 'section',
+			'value' => function ($data) {
+				return $data->section0->section;
+			},
+		)
 	),
 )); ?>
 
