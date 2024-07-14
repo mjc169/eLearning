@@ -34,18 +34,8 @@ class QuizController extends Controller
 		return array(
 			array(
 				'allow',  // allow all users to perform 'index' and 'view' actions
-				'actions' => array('index', 'view'),
-				'users' => array('*'),
-			),
-			array(
-				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' => array('create', 'update'),
+				'actions' => array('index', 'view', 'precreate', 'create', 'update', 'admin', 'delete'),
 				'users' => array('@'),
-			),
-			array(
-				'allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions' => array('admin', 'delete'),
-				'users' => array('admin'),
 			),
 			array(
 				'deny',  // deny all users
@@ -69,20 +59,46 @@ class QuizController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionPreCreate()
 	{
 		$model = new Quiz;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
 
+		if (isset($_POST['Quiz'])) {
+
+			$model->attributes = $_POST['Quiz'];
+			$this->redirect(array('create', 'subject_id' => $model->subject_id));
+			exit;
+		}
+
+		$this->render('precreate', array(
+			'model' => $model,
+		));
+	}
+
+	/**
+	 * Creates a new model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 */
+	public function actionCreate($subject_id = null)
+	{
+		if (empty($subject_id)) {
+			$this->redirect(array('precreate'));
+		}
+
+		$model = new Quiz;
+		$model->subject_id = $subject_id;
+		$model->questions = ['', '', '', '', '', '', '', '', '', ''];
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if (isset($_POST['Quiz'])) {
 			$model->attributes = $_POST['Quiz'];
-			print_r($_POST['Quiz']);
 
-			$model->due_date = $this->dateToYmd($model->due_date);
-			$model->availability_date = $this->dateToYmd($model->availability_date);
-			$model->lock_date = $this->dateToYmd($model->lock_date);
+			$model->due_date = !empty($model->due_date) ? $this->dateToYmd($model->due_date) : "";
+			$model->availability_date = !empty($model->availability_date) ? $this->dateToYmd($model->availability_date) : "";
+			$model->lock_date = !empty($model->lock_date) ? $this->dateToYmd($model->lock_date) : "";
 
 			if ($model->save())
 				$this->redirect(array('view', 'id' => $model->id));

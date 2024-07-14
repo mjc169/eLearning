@@ -31,6 +31,7 @@ class Subject extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('subject_code', 'unique'),
 			array('subject_code, subject, description', 'required'),
 			array('status', 'numerical', 'integerOnly' => true),
 			array('subject_code', 'length', 'max' => 128),
@@ -116,6 +117,8 @@ class Subject extends CActiveRecord
 		foreach ($models as $item) {
 			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
 		}
+
+		return $lookupOptions;
 	}
 
 	public function getStatusLabel()

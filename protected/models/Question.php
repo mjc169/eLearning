@@ -143,7 +143,7 @@ class Question extends CActiveRecord
 
 			//skip blank choices if they are not a model yet
 			if ($choice['choice'] === "" && empty($choice['id']))
-				return;
+				continue;
 
 			$questionChoice = new QuestionChoice;
 			if (!empty($choice['id'])) {

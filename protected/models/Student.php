@@ -128,5 +128,7 @@ class Student extends CActiveRecord
 		foreach ($models as $item) {
 			$lookupOptions[$item->id] = "[$item->subject_code] $item->subject - $item->description";
 		}
+
+		return $lookupOptions;
 	}
 }

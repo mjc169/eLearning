@@ -17,6 +17,8 @@
  */
 class Quiz extends CActiveRecord
 {
+	public $questions;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -33,12 +35,13 @@ class Quiz extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, instructions, time_limit, shuffle, limit_to_one, due_date, availability_date, lock_date', 'required'),
-			array('time_limit, shuffle, limit_to_one, lock_question', 'numerical', 'integerOnly' => true),
+			array('subject_id, title, instructions, time_limit, shuffle, limit_to_one, due_date, availability_date, lock_date', 'required'),
+			array('subject_id, time_limit, shuffle, limit_to_one, lock_question', 'numerical', 'integerOnly' => true),
 			array('title', 'length', 'max' => 255),
+			array('questions', 'validateQuestions'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, instructions, time_limit, shuffle, limit_to_one, lock_question, due_date, availability_date, lock_date', 'safe', 'on' => 'search'),
+			array('id, subject_id, title, instructions, time_limit, shuffle, limit_to_one, lock_question, due_date, availability_date, lock_date', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -49,7 +52,9 @@ class Quiz extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array();
+		return array(
+			'quizQuestions' => array(self::HAS_MANY, 'QuizQuestion', 'quiz_id'),
+		);
 	}
 
 	/**
@@ -68,6 +73,7 @@ class Quiz extends CActiveRecord
 			'due_date' => 'Due Date',
 			'availability_date' => 'Availability Date',
 			'lock_date' => 'Lock Date',
+			'questions' => 'Quiz Question Competency & Taxonomy'
 		);
 	}
 
@@ -114,5 +120,79 @@ class Quiz extends CActiveRecord
 	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	// Custom validation for choices
+	public function validateQuestions($attribute, $params, $isSave = false)
+	{
+		//check if there is less than 2 choices
+		$questionsCtr = 0;
+
+		foreach ($this->questions as $question) {
+
+			if ($question['competency'] !== "" && $question['taxonomy'] !== "" && $question['questionNo'] !== "" && $question['point'] !== "")
+				$questionsCtr++;
+		}
+
+		if ($questionsCtr < 1) {
+			$this->addError('questions', "Must have atleast 1 Question with Competency, Taxonomy, No. of Questions and point");
+			return;
+		}
+
+		//check if choices properties are valid
+
+		foreach ($this->questions as $question) {
+			//skip blank choices if they are not a model yet
+			if ($question['competency'] === "" || $question['taxonomy'] === "" || $question['questionNo'] !== "" || $question['point'] !== "")
+				continue;
+
+			$questionDatabase = Question::model()->findAll(); //add criteria for taxonomy and competency
+
+			foreach ($questionDatabase as $question) {
+				$quizQuestion = new QuizQuestion;
+				$quizQuestion->quiz_id = $question->id;
+				$quizQuestion->point = (int)$question['point'];
+			}
+
+			$valid = $quizQuestion->validate();
+
+			if (!$valid) {
+				$errors = $questionChoice->getErrors();
+
+				// Loop through each attribute and its errors
+				foreach ($errors as $attribute => $attributeErrors) {
+					foreach ($attributeErrors as $error) {
+						$this->addError('questions', $error);
+					}
+				};
+			}
+
+			if ($isSave === true) {
+				$quizQuestion->quiz_id = $this->id;
+				$quizQuestion->save(false);
+			}
+		}
+
+		return;
+	}
+
+	public function afterFind()
+	{
+		/** walang after find kasi hindi naman na-ssave ung INPUT for competency and taxonomy for now */
+		//foreach ($this->quizQuestions as $quizQuestion) {
+		//}
+		$existingChoicesCount = 0;
+
+		for ($x = $existingChoicesCount; $x < 10; $x++) {
+			$this->questions[] =  [
+				'id' => "",
+				'competency' => "",
+				'taxonomy' => "",
+				'questionNo' => "1",
+				'point' => "1",
+			];
+		}
+
+		return parent::afterFind();
 	}
 }
