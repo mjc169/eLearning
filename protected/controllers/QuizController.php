@@ -100,8 +100,10 @@ class QuizController extends Controller
 			$model->availability_date = !empty($model->availability_date) ? $this->dateToYmd($model->availability_date) : "";
 			$model->lock_date = !empty($model->lock_date) ? $this->dateToYmd($model->lock_date) : "";
 
-			if ($model->save())
+			if ($model->save()) {
+				$model->validateTos('question', '', true);
 				$this->redirect(array('view', 'id' => $model->id));
+			}
 		}
 
 		$this->render('create', array(

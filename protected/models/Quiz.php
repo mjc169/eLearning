@@ -38,7 +38,7 @@ class Quiz extends CActiveRecord
 			array('subject_id, title, instructions, time_limit, shuffle, limit_to_one, due_date, availability_date, lock_date', 'required'),
 			array('subject_id, time_limit, shuffle, limit_to_one, lock_question', 'numerical', 'integerOnly' => true),
 			array('title', 'length', 'max' => 255),
-			array('questions', 'validateQuestions'),
+			array('questions', 'validateTos'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, subject_id, title, instructions, time_limit, shuffle, limit_to_one, lock_question, due_date, availability_date, lock_date', 'safe', 'on' => 'search'),
@@ -123,57 +123,63 @@ class Quiz extends CActiveRecord
 	}
 
 	// Custom validation for choices
-	public function validateQuestions($attribute, $params, $isSave = false)
+	public function validateTos($attribute, $params, $isSave = false)
 	{
 		//check if there is less than 2 choices
 		$questionsCtr = 0;
 
-		foreach ($this->questions as $question) {
+		if ($isSave === false) {
+			foreach ($this->questions as $question) {
+				if ($question['competency'] !== "" && $question['taxonomy'] !== "" && $question['questionNo'] !== "")
+					$questionsCtr++;
+			}
 
-			if ($question['competency'] !== "" && $question['taxonomy'] !== "" && $question['questionNo'] !== "" && $question['point'] !== "")
-				$questionsCtr++;
+			if ($questionsCtr < 1) {
+				$this->addError('questions', "Must have atleast 1 Question with Competency, Taxonomy, and No. of Questions");
+				return;
+			}
+
+			return; // early return for validation only
 		}
 
-		if ($questionsCtr < 1) {
-			$this->addError('questions', "Must have atleast 1 Question with Competency, Taxonomy, No. of Questions and point");
-			return;
-		}
 
 		//check if choices properties are valid
 
-		foreach ($this->questions as $question) {
+		foreach ($this->questions as $requestTos) {
+
 			//skip blank choices if they are not a model yet
-			if ($question['competency'] === "" || $question['taxonomy'] === "" || $question['questionNo'] !== "" || $question['point'] !== "")
+			if ($requestTos['competency'] === "" || $requestTos['taxonomy'] === "" || $requestTos['questionNo'] === "") {
 				continue;
-
-			$questionDatabase = Question::model()->findAll(); //add criteria for taxonomy and competency
-
-			foreach ($questionDatabase as $question) {
-				$quizQuestion = new QuizQuestion;
-				$quizQuestion->quiz_id = $question->id;
-				$quizQuestion->point = (int)$question['point'];
 			}
 
-			$valid = $quizQuestion->validate();
+			$quizTos = new QuizTos;
+			if (!empty($requestTos['id'])) {
+				$quizTos = QuizTos::model()->findByPk($requestTos['id']);
+			}
+
+			$quizTos->quiz_id = $this->id;
+			$quizTos->subject_competency_id = $requestTos['competency'];
+			$quizTos->question_taxonomy_id = $requestTos['taxonomy'];
+			$quizTos->no_of_questions = $requestTos['questionNo'];
+			$quizTos->points = 1; //set to 1 for now
+
+			$valid = $quizTos->validate();
 
 			if (!$valid) {
-				$errors = $questionChoice->getErrors();
+				$errors = $quizTos->getErrors();
 
 				// Loop through each attribute and its errors
 				foreach ($errors as $attribute => $attributeErrors) {
 					foreach ($attributeErrors as $error) {
-						$this->addError('questions', $error);
+						//$this->addError('questions', $error);
+						print_r($error);
+						exit;
 					}
 				};
-			}
-
-			if ($isSave === true) {
-				$quizQuestion->quiz_id = $this->id;
-				$quizQuestion->save(false);
+			} else {
+				$quizTos->save(false);
 			}
 		}
-
-		return;
 	}
 
 	public function afterFind()

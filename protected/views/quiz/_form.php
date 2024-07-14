@@ -40,7 +40,7 @@
 
 			<div class="form-group row pl-4">
 				<div class="col-sm-12"><?php echo $form->labelEx($model, 'time_limit'); ?></div>
-				<div class="col-sm-12"><?php echo $form->textField($model, 'time_limit', array('class' => 'form-control')); ?></div>
+				<div class="col-sm-12"><?php echo $form->textField($model, 'time_limit', array('class' => 'form-control', "placeholder" => "Time in Minutes, e.g 60 for 1 hour")); ?></div>
 				<div class="col-sm-12"><?php echo $form->error($model, 'time_limit', array('class' => 'text-danger')); ?></div>
 			</div>
 
@@ -52,7 +52,7 @@
 
 			<div class="form-group row pl-4">
 				<div class="col-sm-12"><?php echo $form->labelEx($model, 'limit_to_one'); ?></div>
-				<div class="col-sm-12"><?php echo $form->textField($model, 'limit_to_one', array('class' => 'form-control')); ?></div>
+				<div class="col-sm-12"><?php echo $form->dropDownList($model, 'limit_to_one', [0 => 'No', 1 => 'Yes'], array('class' => 'form-control')); ?></div>
 				<div class="col-sm-12"><?php echo $form->error($model, 'limit_to_one', array('class' => 'text-danger')); ?></div>
 			</div>
 
@@ -60,6 +60,27 @@
 				<div class="col-sm-12"><?php echo $form->labelEx($model, 'lock_question'); ?></div>
 				<div class="col-sm-12"><?php echo $form->dropDownList($model, 'lock_question', [0 => 'No', 1 => 'Yes'], array('class' => 'form-control')); ?></div>
 				<div class="col-sm-12"><?php echo $form->error($model, 'lock_question', array('class' => 'text-danger')); ?></div>
+			</div>
+
+			<div class="form-group row pl-4">
+				<div class="col-sm-12"><?php echo $form->labelEx($model, 'availability_date'); ?></div>
+				<div class="col-sm-12"><?php
+										$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+											'name' => 'Quiz[availability_date]',
+											'value' => $model->availability_date,
+											'options' => array(
+												'showAnim' => 'fold',
+											),
+											// any HTML options for the input field
+											'htmlOptions' => array(
+												'class' => 'form-control',
+												'placeholder' => 'Select Availability date',
+												'id' => 'datepicker-availability_date',
+											),
+										));
+
+										?></div>
+				<div class="col-sm-12"><?php echo $form->error($model, 'availability_date', array('class' => 'text-danger')); ?></div>
 			</div>
 
 			<div class="form-group row pl-4">
@@ -82,27 +103,6 @@
 										?>
 				</div>
 				<div class="col-sm-12"><?php echo $form->error($model, 'due_date', array('class' => 'text-danger')); ?></div>
-			</div>
-
-			<div class="form-group row pl-4">
-				<div class="col-sm-12"><?php echo $form->labelEx($model, 'availability_date'); ?></div>
-				<div class="col-sm-12"><?php
-										$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-											'name' => 'Quiz[availability_date]',
-											'value' => $model->availability_date,
-											'options' => array(
-												'showAnim' => 'fold',
-											),
-											// any HTML options for the input field
-											'htmlOptions' => array(
-												'class' => 'form-control',
-												'placeholder' => 'Select Availability date',
-												'id' => 'datepicker-availability_date',
-											),
-										));
-
-										?></div>
-				<div class="col-sm-12"><?php echo $form->error($model, 'availability_date', array('class' => 'text-danger')); ?></div>
 			</div>
 
 			<div class="form-group row pl-4">
@@ -137,7 +137,6 @@
 					<div class="col-sm-3"><?php echo $form->dropDownList($model, "questions[$i][competency]", SubjectCompetency::dataList($model->subject_id), array('empty' => '-Select Subject Competency-', 'class' => 'form-control')); ?></div>
 					<div class="col-sm-3"><?php echo $form->dropDownList($model, "questions[$i][taxonomy]", QuestionTaxonomy::dataList(), array('empty' => '-Select Question Taxonomy-', 'class' => 'form-control')); ?></div>
 					<div class="col-sm-3"><?php echo $form->textField($model, "questions[$i][questionNo]", array('class' => 'form-control', 'placeholder' => 'Add number of Questions to be generated')); ?></div>
-					<div class="col-sm-3"><?php echo $form->textField($model, "questions[$i][point]", array('class' => 'form-control', 'placeholder' => 'Question Point')); ?></div>
 				</div>
 			<?php }	?>
 			<div class="col-sm-12"><?php echo $form->error($model, 'questions', array('class' => 'text-danger')); ?></div>
