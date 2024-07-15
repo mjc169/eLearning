@@ -34,7 +34,8 @@ class File extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('uploader_id, original_filename, file_extension, e_filename, bvalue', 'required'),
+			array('uploader_id, original_filename', 'required'),
+			array('bvalue, file_extension', 'safe'),
 			array('uploader_id, status', 'numerical', 'integerOnly' => true),
 			array('original_filename, e_filename', 'length', 'max' => 255),
 			array('file_extension', 'length', 'max' => 10),
@@ -65,7 +66,7 @@ class File extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'uploader_id' => 'Uploader',
-			'original_filename' => 'Original Filename',
+			'original_filename' => 'Filename',
 			'file_extension' => 'File Extension',
 			'e_filename' => 'E Filename',
 			'bvalue' => 'Bvalue',
@@ -117,7 +118,7 @@ class File extends CActiveRecord
 
 	public function getStatusLabel()
 	{
-		return $this->status === 1 ? 'Active' : 'Inactive';
+		return (int)$this->status === 1 ? 'Active' : 'Inactive';
 	}
 
 	public function getShortenedBvalue()

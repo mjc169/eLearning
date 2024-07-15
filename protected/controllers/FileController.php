@@ -6,7 +6,13 @@ class FileController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	
+	public $layout;
+
+	public function init()
+	{
+		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER) ? '//layouts/sp2-main' : '//layouts/column2';
+	}
 
 	/**
 	 * @return array action filters
@@ -27,17 +33,9 @@ class FileController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('index', 'myFiles', 'sharedFiles', 'view','create','update', 'admin','delete'),
 				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -70,16 +68,20 @@ class FileController extends Controller
 		if(isset($_POST['File']))
 		{
 			$model->attributes=$_POST['File'];
-			$cUploadedFileInstance=CUploadedFile::getInstance($model,'original_filename');
-
+			$model->status = 1; //active
+			
 			//manual input
-			$model->original_filename = $cUploadedFileInstance->name;
-			$model->file_extension = $cUploadedFileInstance->extensionName;
-			$model->e_filename = $cUploadedFileInstance->tempName;
-			//$model->bvalue = "learn_how_to_generate_this";
+			$cUploadedFileInstance=CUploadedFile::getInstance($model,'original_filename');
+			
+			if(!empty($cUploadedFileInstance)) {
+				$model->original_filename = $cUploadedFileInstance->name;
+				$model->file_extension = $cUploadedFileInstance->extensionName;
+				$model->e_filename = $cUploadedFileInstance->tempName;
+			}
 
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+			}
 		}
 
 		$this->render('create',array(
@@ -135,6 +137,38 @@ class FileController extends Controller
 	{
 		$dataProvider=new CActiveDataProvider('File');
 		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	public function actionMyFiles()
+	{
+		$uploader_id = Yii::app()->user->account->id;
+		
+		$criteria = new CDbCriteria();
+  		$criteria->compare('uploader_id', $uploader_id);
+
+		$dataProvider = new CActiveDataProvider('File', array(
+			'criteria' => $criteria,
+		));
+
+		$this->render('myFiles',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	public function actionSharedFiles()
+	{
+		$receiver_id = Yii::app()->user->account->id;
+		
+		$criteria = new CDbCriteria();
+  		$criteria->compare('receiver_id', $receiver_id);
+
+		$dataProvider = new CActiveDataProvider('FileAssignment', array(
+			'criteria' => $criteria,
+		));
+
+		$this->render('sharedFiles',array(
 			'dataProvider'=>$dataProvider,
 		));
 	}

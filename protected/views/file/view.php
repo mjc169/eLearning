@@ -22,11 +22,17 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
-		'uploader_id',
+		array(
+			'label' => 'Uploader',
+			'value' => $model->uploader->getFullName(),
+		  ),
 		'original_filename',
 		'file_extension',
 		'e_filename',
-		'status',
+		array(
+			'label' => 'Status',
+			'value' => $model->getStatusLabel(),
+		  ),
 		array(
 			'label' => 'Base64 Value',
 			'type' => 'raw',

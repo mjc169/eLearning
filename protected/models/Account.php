@@ -177,10 +177,24 @@ class Account extends CActiveRecord
 		];
 	}
 
+	public function getFullName($placeholder = null) {
+		$relatedModel = $this->getRelatedModel();
+		//var_dump($relatedModel); exit;
+		if ($relatedModel)
+			return $relatedModel->firstname. ' '.$relatedModel->lastname;
+			
+
+		return $placeholder !== null ? $placeholder : "(Admin)";
+	}
+
 	public function getGenderLabel()
 	{
 		$arr = self::genderList();
 		$relatedModel = $this->getRelatedModel();
+
+		if (!$relatedModel)
+			return "n/a";
+
 		return $arr[$relatedModel->gender];
 	}
 
@@ -191,13 +205,14 @@ class Account extends CActiveRecord
 
 	public function getRelatedModel()
 	{
-		if ($this->account_type === self::ACCOUNT_TYPE_ADMIN)
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_ADMIN)
 			return null;
 
-		if ($this->account_type === self::ACCOUNT_TYPE_TEACHER)
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_TEACHER)
 			return $this->teacher();
 
-		if ($this->account_type === self::ACCOUNT_TYPE_STUDENT)
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_STUDENT)
 			return $this->student();
 	}
+	
 }

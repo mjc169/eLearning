@@ -10,7 +10,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('uploader_id')); ?>:</b>
-	<?php echo CHtml::encode($data->uploader_id); ?>
+	<?php echo CHtml::encode($data->uploader->getFullnName()); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('original_filename')); ?>:</b>
@@ -30,7 +30,7 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
-	<?php echo CHtml::encode($data->status); ?>
+	<?php echo CHtml::encode($data->getStatusLabel()); ?>
 	<br />
 
 

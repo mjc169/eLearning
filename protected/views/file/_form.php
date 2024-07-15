@@ -18,28 +18,25 @@
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo $form->errorSummary($model); ?>
+	<?php //echo $form->errorSummary($model); ?>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'uploader_id'); ?>
-		<?php echo "ACCOUNT ID: ". $model->uploader_id; ?>
+		<div class="col-md-6">
+
+			<div class="form-group row pl-4">
+				<div class="col-sm-6"><?php echo $form->labelEx($model,'original_filename'); ?></div>
+				<div class="col-sm-6">
+					<?php echo $form->fileField($model,'original_filename'); ?>
+					<?php echo $form->hiddenField($model, 'bvalue'); ?>
+				</div>
+				<div class="col-sm-12"><?php echo $form->error($model,'original_filename', array('class' => 'text-danger')); ?></div>
+			</div>
+		</div>
 	</div>
 	
-	<div class="row">
-		<?php echo $form->labelEx($model,'original_filename'); ?>
-		<?php echo $form->fileField($model,'original_filename'); ?>
-		<?php echo $form->hiddenField($model, 'bvalue'); ?>
-		<?php echo $form->error($model,'original_filename'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status'); ?>
-		<?php echo $form->error($model,'status'); ?>
-	</div>
-
+	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Upload' : 'Save'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
@@ -49,7 +46,6 @@
 
 <script>
 $(document).ready(function() {
-
 	const dataURLtoFile = (dataUrl, filename) => {
         const arr = dataUrl.split(",");
         const mime = arr[0].match(/:(.*?);/)[1];
@@ -85,7 +81,7 @@ $(document).ready(function() {
 	}
 
 	$('#File_original_filename').on("change", async function(event) {
-		
+		console.log("asdfasfd")
 		await FileUploadToBase64();
 	});
 });

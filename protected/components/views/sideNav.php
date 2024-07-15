@@ -70,9 +70,10 @@
         </a>
         <div id="collapseFiles" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">All Files</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Assign Files</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Upload File</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('file/myFiles'); ?>">My Files</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('file/sharedFiles'); ?>">Shared Files</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('file/assignFiles'); ?>">Assign Files</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('file/create'); ?>">Upload File</a>
             </div>
         </div>
     </li>
