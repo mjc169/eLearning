@@ -15,6 +15,7 @@
  */
 class FileAssignment extends CActiveRecord
 {
+	private $oldAttributeValues;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -32,11 +33,31 @@ class FileAssignment extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('file_id, receiver_id', 'required'),
+			array('file_id, receiver_id', 'checkUniqueness'), // Custom rule
 			array('file_id, receiver_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, file_id, receiver_id, status', 'safe', 'on' => 'search'),
 		);
+	}
+
+	public function checkUniqueness($attribute, $params)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->addInCondition('file_id', array($this->file_id));
+		$criteria->addInCondition('receiver_id', array($this->receiver_id));
+		$model = self::model()->find($criteria);
+
+		if ($model !== null && ($model->getIsNewRecord() === false ||
+			($this->{$attribute} !== $this->oldAttributeValues[$attribute]))) {
+			$this->addError('file_id', 'You have already shared the file to the user');
+		}
+	}
+
+	protected function afterFind()
+	{
+		parent::afterFind();
+		$this->oldAttributeValues = $this->attributes; // Store original values (this is important for `checkUniqueness` to work)
 	}
 
 	/**
@@ -51,6 +72,7 @@ class FileAssignment extends CActiveRecord
 			'file' => array(self::BELONGS_TO, 'File', 'file_id'),
 		);
 	}
+
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -107,5 +129,21 @@ class FileAssignment extends CActiveRecord
 	public function getStatusLabel()
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
+
+
+	public static function listOfReceivers($file_id): string
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('file_id', $file_id);
+
+		$models = self::model()->findAll($criteria);
+
+		$names = [];
+		foreach ($models as $model) {
+			$names[] = $model->receiver->getFullName("[Admin]:" . $model->receiver->username);
+		}
+
+		return implode(', ', $names);
 	}
 }

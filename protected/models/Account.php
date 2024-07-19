@@ -177,12 +177,13 @@ class Account extends CActiveRecord
 		];
 	}
 
-	public function getFullName($placeholder = null) {
+	public function getFullName($placeholder = null)
+	{
 		$relatedModel = $this->getRelatedModel();
 		//var_dump($relatedModel); exit;
 		if ($relatedModel)
-			return $relatedModel->firstname. ' '.$relatedModel->lastname;
-			
+			return $relatedModel->firstname . ' ' . $relatedModel->lastname;
+
 
 		return $placeholder !== null ? $placeholder : "(Admin)";
 	}
@@ -214,5 +215,38 @@ class Account extends CActiveRecord
 		if ((int)$this->account_type === self::ACCOUNT_TYPE_STUDENT)
 			return $this->student();
 	}
-	
+
+	public static function dataList()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->order = "account_type DESC";
+		$models = self::model()->findAll($criteria);
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = $item->getFullNameWithType();
+		}
+
+		return $lookupOptions;
+	}
+
+	private function getFullNameWithType($placeholder = null)
+	{
+		$relatedModel = $this->getRelatedModel();
+
+
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_TEACHER)
+			$prefix = "[Teacher] ";
+
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_STUDENT)
+			$prefix = "[Student] ";
+
+		//var_dump($relatedModel); exit;
+		if ($relatedModel)
+			return $prefix . $relatedModel->firstname . ' ' . $relatedModel->lastname;
+
+
+		return $placeholder !== null ? $placeholder : "[Admin] " . $this->email_address;
+	}
 }

@@ -6,7 +6,7 @@
 <tr class="view">
 
 	<td>
-		<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id' => $data->id)); ?>
+		<?php echo CHtml::link(CHtml::encode($data->file_id), array('view', 'id' => $data->file_id)); ?>
 	</td>
 
 	<td>
@@ -14,7 +14,7 @@
 	</td>
 
 	<td>
-		<?php echo CHtml::encode($data->file->uploader->getFullName()); ?>
+		<?php echo CHtml::encode($data->file->uploader->getFullName("[Admin] " . $data->file->uploader->username)); ?>
 	</td>
 
 	<td>

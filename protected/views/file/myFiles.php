@@ -2,7 +2,7 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = array(
 	'My Files',
 );
 ?>
@@ -21,7 +21,7 @@ $this->breadcrumbs=array(
 					<tr>
 						<th>ID</th>
 						<th>Filename</th>
-						<th>Owner</th>
+						<th>Shared To</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>

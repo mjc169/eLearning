@@ -131,4 +131,20 @@ class File extends CActiveRecord
 			return $original_string;
 		}
 	}
+
+	public static function dataList($uploader_id)
+	{
+		$criteria = new CDbCriteria();
+		$criteria->compare('uploader_id', $uploader_id);
+
+		$models = self::model()->findAll($criteria);
+		/** might need add checking of `status` in the criteria */
+
+		$lookupOptions = array();
+		foreach ($models as $item) {
+			$lookupOptions[$item->id] = "[$item->file_extension] $item->original_filename";
+		}
+
+		return $lookupOptions;
+	}
 }
