@@ -33,7 +33,7 @@ class SectionController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete'),
+				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'preview'),
 				'users' => array('@'),
 			),
 			array(
@@ -149,5 +149,15 @@ class SectionController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	public function actionPreview()
+	{
+		//$teacher_id = Yii::app()->user->account->id;
+		$sectionLists = Section::listByNumberOfStudents();
+
+		$this->render('preview', array(
+			'sectionLists' => $sectionLists,
+		));
 	}
 }

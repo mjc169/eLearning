@@ -216,10 +216,13 @@ class Account extends CActiveRecord
 			return $this->student();
 	}
 
-	public static function dataList()
+	public static function dataList($account_type = null)
 	{
+
 		$criteria = new CDbCriteria();
-		$criteria->order = "account_type DESC";
+		if ($account_type !== null)
+			$criteria->compare('account_type', $account_type);
+
 		$models = self::model()->findAll($criteria);
 		/** might need add checking of `status` in the criteria */
 

@@ -39,12 +39,24 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
             <i class="fas fa-fw fa-folder"></i>
+            <span>Sections</span>
+        </a>
+        <div id="collapseClasses" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/preview'); ?>">Section List</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
+            <i class="fas fa-fw fa-folder"></i>
             <span>Classes</span>
         </a>
         <div id="collapseClasses" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Class List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Create Class</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('class/index'); ?>">Class List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('class/assignClass'); ?>">Create Class</a>
             </div>
         </div>
     </li>

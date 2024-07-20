@@ -33,7 +33,7 @@ class QuestionController extends Controller
 		return array(
 			array(
 				'allow',  // allow all users to perform 'index' and 'view' actions
-				'actions' => array('index', 'view', 'create', 'update', 'admin', 'delete'),
+				'actions' => array('index', 'view', 'precreate', 'create', 'update', 'admin', 'delete'),
 				'users' => array('@'),
 			),
 			array(
@@ -54,13 +54,38 @@ class QuestionController extends Controller
 		));
 	}
 
+	public function actionPreCreate()
+	{
+		$model = new Question;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if (isset($_POST['Question'])) {
+
+			$model->attributes = $_POST['Question'];
+			$this->redirect(array('create', 'subject_id' => $model->subjectId));
+			exit;
+		}
+
+		$this->render('precreate', array(
+			'model' => $model,
+		));
+	}
+
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate($subject_id = null)
 	{
+		if (empty($subject_id)) {
+			$this->redirect(array('precreate'));
+		}
+
 		$model = new Question;
+		$model->subjectId = $subject_id;
+
 		$model->choices = ['', '', '', ''];
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);

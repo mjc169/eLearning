@@ -88,7 +88,7 @@ class QuizController extends Controller
 		}
 
 		$model = new Quiz;
-		$model->subject_id = $subject_id;
+		$model->subjectId = $subject_id;
 		$model->questions = ['', '', '', '', '', '', '', '', '', ''];
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);

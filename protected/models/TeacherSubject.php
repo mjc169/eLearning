@@ -1,25 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "tbl_section".
+ * This is the model class for table "tbl_teacher_subject".
  *
- * The followings are the available columns in table 'tbl_section':
+ * The followings are the available columns in table 'tbl_teacher_subject':
  * @property integer $id
- * @property string $section_code
- * @property string $section
- * @property integer $status
+ * @property integer $teacher_id
+ * @property string $subject_id
  *
  * The followings are the available model relations:
- * @property Student[] $students
+ * @property Account $account
  */
-class Section extends CActiveRecord
+class TeacherSubject extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'tbl_section';
+		return 'tbl_teacher_subject';
 	}
 
 	/**
@@ -30,12 +29,12 @@ class Section extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('section_code, section', 'required'),
-			array('status', 'numerical', 'integerOnly' => true),
-			array('section_code, section', 'length', 'max' => 255),
+			array('teacher_id, subject_id', 'required'),
+			array('teacher_id, subject_id', 'numerical', 'integerOnly' => true),
+			array('teacher_id, subject_id', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, section_code, section, status', 'safe', 'on' => 'search'),
+			array('id, teacher_id, subject_id', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -47,7 +46,8 @@ class Section extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'students' => array(self::HAS_MANY, 'Student', 'section'),
+			'teacher' => array(self::BELONGS_TO, 'Teacher', 'teacher_id'),
+			'subject' => array(self::BELONGS_TO, 'Subject', 'subject_id'),
 		);
 	}
 
@@ -58,9 +58,8 @@ class Section extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'section_code' => 'Section Code',
-			'section' => 'Section',
-			'status' => 'Status',
+			'teacher_id' => 'Teacher',
+			'subject_id' => 'Subject',
 		);
 	}
 
@@ -83,9 +82,8 @@ class Section extends CActiveRecord
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('section_code', $this->section_code, true);
-		$criteria->compare('section', $this->section, true);
-		$criteria->compare('status', $this->status);
+		$criteria->compare('teacher_id', $this->teacher_id);
+		$criteria->compare('subject_id', $this->subject_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria' => $criteria,
@@ -96,61 +94,26 @@ class Section extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Section the static model class
+	 * @return Teacher the static model class
 	 */
 	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
 
-	public static function dataList()
+	public static function dataList($teacher_id)
 	{
 		$models = self::model()->findAll(array(
-			'order' => 'section_code ASC',
+			'condition' => 'teacher_id = :teacher_id',
+			'params' => array(':teacher_id' => $teacher_id),
 		));
 		/** might need add checking of `status` in the criteria */
 
 		$lookupOptions = array();
 		foreach ($models as $item) {
-			$lookupOptions[$item->id] = "[$item->section_code] $item->section";
+			$lookupOptions[$item->subject_id] = sprintf("[%s] - ", $item->subject->subject_code) . $item->subject->subject;
 		}
 
 		return $lookupOptions;
-	}
-
-	public function getStatusLabel()
-	{
-		return $this->status === 1 ? 'Active' : 'Inactive';
-	}
-
-	public static function listByNumberOfStudents(): array
-	{
-		$sections = self::model()->findAll();
-		$groupBySections = array();
-
-		foreach ($sections as $section) {
-
-			$students = Student::model()->findAll(array(
-				'condition' => 'section = :section',
-				'params' => array(':section' => $section->id),
-			));
-
-			foreach ($students as $student) {
-				$groupBySections[$student->section]['section'] = $section;
-				$groupBySections[$student->section]['students'][] = $student->account;
-			}
-		}
-
-		return $groupBySections;
-	}
-
-	public static function listOfStudents(array $students): string
-	{
-		$names = [];
-		foreach ($students as $account) {
-			$names[] = $account->getFullName("[Admin]:" . $account->username);
-		}
-
-		return implode(', ', $names);
 	}
 }

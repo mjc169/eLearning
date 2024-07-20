@@ -20,6 +20,12 @@
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="row">
+		<?php echo $form->labelEx($model, 'subjectId'); ?>
+		<?php echo $form->dropDownList($model, 'subjectId', Subject::dataList(), array('empty' => '-Select Subject-', 'class' => 'form-control', 'disabled' => true, 'style' => 'max-width: 500px')); ?>
+		<?php echo $form->error($model, 'subjectId', array('class' => 'text-danger')); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model, 'question'); ?>
 		<?php echo $form->textArea($model, 'question', array('rows' => 6, 'cols' => 50)); ?>
 		<?php echo $form->error($model, 'question'); ?>
@@ -45,7 +51,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model, 'competency_id'); ?>
-		<?php echo $form->dropDownList($model, 'competency_id', SubjectCompetency::dataList(), array('empty' => Yii::t('app', '-Subject Competency-'))); ?>
+		<?php echo $form->dropDownList($model, 'competency_id', SubjectCompetency::dataList($model->subjectId), array('empty' => Yii::t('app', '-Subject Competency-'))); ?>
 		<?php echo $form->error($model, 'competency_id'); ?>
 	</div>
 

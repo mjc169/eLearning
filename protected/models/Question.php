@@ -15,6 +15,7 @@
 class Question extends CActiveRecord
 {
 	public $choices;
+	public $subjectId;
 
 	/**
 	 * @return string the associated database table name
@@ -33,7 +34,7 @@ class Question extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('question, taxonomy_id, competency_id', 'required'),
-			array('question_type, file_id, taxonomy_id, competency_id, status', 'numerical', 'integerOnly' => true),
+			array('subjectId, question_type, file_id, taxonomy_id, competency_id, status', 'numerical', 'integerOnly' => true),
 			array('choices', 'validateChoices'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -50,6 +51,7 @@ class Question extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'questionChoices' => array(self::HAS_MANY, 'QuestionChoice', 'question_id'),
+			'competency' => array(self::BELONGS_TO, 'SubjectCompetency', 'competency_id'),
 		);
 	}
 
@@ -177,6 +179,8 @@ class Question extends CActiveRecord
 
 	public function afterFind()
 	{
+		$this->subjectId = $this->competency->subject_id;
+
 		foreach ($this->questionChoices as $questionChoice) {
 			$this->choices[] =  [
 				'id' => $questionChoice->id,

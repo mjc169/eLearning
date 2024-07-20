@@ -17,6 +17,8 @@
  */
 class ClassAssignment extends CActiveRecord
 {
+	private $oldAttributeValues;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -34,11 +36,31 @@ class ClassAssignment extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('subject_id, student_id, teacher_id', 'required'),
+			array('subject_id, student_id', 'checkUniqueness'), // Custom rule
 			array('subject_id, student_id, teacher_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, subject_id, student_id, teacher_id, status', 'safe', 'on' => 'search'),
 		);
+	}
+
+	public function checkUniqueness($attribute, $params)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->addInCondition('subject_id', array($this->subject_id));
+		$criteria->addInCondition('student_id', array($this->student_id));
+		$model = self::model()->find($criteria);
+
+		if ($model !== null && ($model->getIsNewRecord() === false ||
+			($this->{$attribute} !== $this->oldAttributeValues[$attribute]))) {
+
+
+			if ($model !== null && $model->teacher_id !== $this->teacher_id) {
+				$this->addError('subject_id', 'The student has already been assigned to this subject on another Teacher');
+			} else {
+				$this->addError('subject_id', 'You have already assigned the student to your selected subject');
+			}
+		}
 	}
 
 	/**
@@ -112,5 +134,32 @@ class ClassAssignment extends CActiveRecord
 	public function getStatusLabel()
 	{
 		return $this->status === 1 ? 'Active' : 'Inactive';
+	}
+
+	public static function listBySubjectAndNumberOfStudents($teacher_id): array
+	{
+		$models = self::model()->findAll(array(
+			'condition' => 'teacher_id = :teacher_id',
+			'params' => array(':teacher_id' => $teacher_id),
+		));
+		/** might need add checking of `status` in the criteria */
+
+		$groupBySubjects = array();
+		foreach ($models as $model) {
+			$groupBySubjects[$model->subject->id]['subject'] = $model->subject;
+			$groupBySubjects[$model->subject->id]['students'][] = $model->student;
+		}
+
+		return $groupBySubjects;
+	}
+
+	public static function listOfStudents(array $students): string
+	{
+		$names = [];
+		foreach ($students as $account) {
+			$names[] = $account->getFullName("[Admin]:" . $account->username);
+		}
+
+		return implode(', ', $names);
 	}
 }
