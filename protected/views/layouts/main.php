@@ -40,6 +40,8 @@
 
 					//FOR TEACHER ONLY
 					array('label' => 'Students', 'url' => array('/student/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)),
+					array('label' => 'Teacher Subject', 'url' => array('/account/assignSubject'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
+
 					array('label' => 'Questions', 'url' => array('/question/index'), 'visible' => !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)),
 
 					//FOR STUDENTS ONLY

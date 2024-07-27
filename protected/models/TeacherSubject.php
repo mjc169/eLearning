@@ -13,6 +13,8 @@
  */
 class TeacherSubject extends CActiveRecord
 {
+	private $oldAttributeValues;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,12 +32,27 @@ class TeacherSubject extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('teacher_id, subject_id', 'required'),
+			array('teacher_id, subject_id', 'checkUniqueness'), // Custom rule
 			array('teacher_id, subject_id', 'numerical', 'integerOnly' => true),
 			array('teacher_id, subject_id', 'length', 'max' => 255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, teacher_id, subject_id', 'safe', 'on' => 'search'),
 		);
+	}
+
+	public function checkUniqueness($attribute, $params)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->addInCondition('teacher_id', array($this->teacher_id));
+		$criteria->addInCondition('subject_id', array($this->subject_id));
+		$model = self::model()->find($criteria);
+
+		if ($model !== null && ($model->getIsNewRecord() === false ||
+			($this->{$attribute} !== $this->oldAttributeValues[$attribute]))) {
+
+			$this->addError('subject_id', 'You have already assigned this subject to the teacher.');
+		}
 	}
 
 	/**
@@ -46,7 +63,7 @@ class TeacherSubject extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'teacher' => array(self::BELONGS_TO, 'Teacher', 'teacher_id'),
+			'teacher' => array(self::BELONGS_TO, 'Account', 'teacher_id'),
 			'subject' => array(self::BELONGS_TO, 'Subject', 'subject_id'),
 		);
 	}

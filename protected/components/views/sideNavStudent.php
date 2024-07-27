@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Teacher Portal</div>
+        <div class="sidebar-brand-text mx-3">Student Portal</div>
     </a>
 
     <!-- Divider -->
@@ -23,30 +23,6 @@
 
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Students</span>
-        </a>
-        <div id="collapseStudent" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/index'); ?>">Student List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('student/create'); ?>">Add Student</a>
-            </div>
-        </div>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSections" aria-expanded="false" aria-controls="collapseSections">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Sections</span>
-        </a>
-        <div id="collapseSections" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('teacherSection/preview'); ?>">Section List</a>
-            </div>
-        </div>
-    </li>
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClasses" aria-expanded="false" aria-controls="collapseClasses">
@@ -55,8 +31,7 @@
         </a>
         <div id="collapseClasses" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('class/index'); ?>">Class List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('class/assignClass'); ?>">Create Class</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('studentPortal/classList'); ?>">Class List</a>
             </div>
         </div>
     </li>
@@ -69,8 +44,6 @@
         <div id="collapseQuizzes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/index'); ?>">Quiz List</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/index'); ?>">Assign Quiz</a>
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('quiz/create'); ?>">Create Quiz</a>
             </div>
         </div>
     </li>

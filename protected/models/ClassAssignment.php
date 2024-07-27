@@ -147,11 +147,31 @@ class ClassAssignment extends CActiveRecord
 		$groupBySubjects = array();
 		foreach ($models as $model) {
 			$groupBySubjects[$model->subject->id]['subject'] = $model->subject;
+			$groupBySubjects[$model->subject->id]['teacher'] = $model->teacher;
 			$groupBySubjects[$model->subject->id]['students'][] = $model->student;
 		}
 
 		return $groupBySubjects;
 	}
+
+	public static function listBySubjectForStudent($student_id): array
+	{
+		$models = self::model()->findAll(array(
+			'condition' => 'student_id = :student_id',
+			'params' => array(':student_id' => $student_id),
+		));
+		/** might need add checking of `status` in the criteria */
+
+		$groupBySubjects = array();
+		foreach ($models as $model) {
+			$groupBySubjects[$model->subject->id]['subject'] = $model->subject;
+			$groupBySubjects[$model->subject->id]['teacher'] = $model->teacher;
+			$groupBySubjects[$model->subject->id]['students'][] = $model->student;
+		}
+
+		return $groupBySubjects;
+	}
+
 
 	public static function teacherClassSubjects($teacher_id): array
 	{

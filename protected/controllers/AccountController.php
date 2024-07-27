@@ -33,7 +33,7 @@ class AccountController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial'),
+				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial', 'assignSubject', 'viewTeacherSubject'),
 				'users' => array('@'),
 			),
 			array(
@@ -256,5 +256,39 @@ class AccountController extends Controller
 		$this->renderPartial('_teacherForm', array(
 			'teacher' => $teacher
 		), false, true); // Don't include layout or scripts
+	}
+
+	public function actionViewTeacherSubject()
+	{
+
+		$criteria = new CDbCriteria();
+
+		$dataProvider = new CActiveDataProvider('TeacherSubject', array(
+			'criteria' => $criteria,
+		));
+
+		$this->render('viewSubject', array(
+			'dataProvider' => $dataProvider,
+		));
+	}
+
+	public function actionAssignSubject()
+	{
+		$model = new TeacherSubject;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if (isset($_POST['TeacherSubject'])) {
+			$model->attributes = $_POST['TeacherSubject'];
+
+			if ($model->save()) {
+				Yii::app()->user->setFlash('success', 'Subject assigned to the teacher successfully!');
+				$this->redirect(array('assignSubject', 'id' => $model->id));
+			}
+		}
+
+		$this->render('assignSubject', array(
+			'model' => $model,
+		));
 	}
 }
