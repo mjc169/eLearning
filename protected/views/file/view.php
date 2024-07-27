@@ -17,7 +17,8 @@ $this->menu = array(
 ?>
 
 <h1>View File #<?php echo $model->id; ?> |
-	<?php echo CHtml::link("Download File", array('download', 'id' => $model->id), array("target" => "_blank")); ?>
+	<?php echo CHtml::link("Download File", array('download', 'id' => $model->id), array("target" => "_blank")); ?> |
+	<?php echo CHtml::link("Download as Base64", $model->bvalue, array("download" => $model->original_filename, "target" => "_blank")); ?>
 </h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(

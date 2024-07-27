@@ -15,6 +15,8 @@
  */
 class FileAssignment extends CActiveRecord
 {
+	public $teacher_class_subject_id;
+
 	private $oldAttributeValues;
 	/**
 	 * @return string the associated database table name
@@ -32,17 +34,28 @@ class FileAssignment extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('file_id, receiver_id', 'required'),
+			array('file_id', 'required'),
+			array('receiver_id, teacher_class_subject_id', 'eitherRequired'),
 			array('file_id, receiver_id', 'checkUniqueness'), // Custom rule
-			array('file_id, receiver_id, status', 'numerical', 'integerOnly' => true),
+			array('file_id, receiver_id, teacher_class_subject_id, status', 'numerical', 'integerOnly' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, file_id, receiver_id, status', 'safe', 'on' => 'search'),
 		);
 	}
 
+	public function eitherRequired($attribute, $params)
+	{
+		if (empty($this->receiver_id) && empty($this->teacher_class_subject_id)) {
+			$this->addError($attribute, 'At least one of Receiver or Teacher class must be filled.');
+		}
+	}
+
 	public function checkUniqueness($attribute, $params)
 	{
+		if (empty($this->receiver_id) && !empty($this->teacher_class_subject_id))
+			return;
+
 		$criteria = new CDbCriteria;
 		$criteria->addInCondition('file_id', array($this->file_id));
 		$criteria->addInCondition('receiver_id', array($this->receiver_id));
@@ -84,6 +97,7 @@ class FileAssignment extends CActiveRecord
 			'file_id' => 'File',
 			'receiver_id' => 'Receiver',
 			'status' => 'Status',
+			'teacher_class_subject_id' => 'Teacher Classes',
 		);
 	}
 

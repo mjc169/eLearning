@@ -64,6 +64,14 @@ $this->menu = array(
 					</div>
 					<div class="col-sm-12"><?php echo $form->error($model, 'receiver_id', array('class' => 'text-danger')); ?></div>
 				</div>
+
+				<div class="form-group row pl-4">
+					<div class="col-sm-6"><?php echo $form->labelEx($model, 'teacher_class_subject_id'); ?></div>
+					<div class="col-sm-6">
+						<?php echo $form->dropDownList($model, 'teacher_class_subject_id', ClassAssignment::teacherClassSubjects(Yii::app()->user->account->id), array('empty' => Yii::t('app', '-Class Subject to share-'), 'class' => 'form-control')); ?>
+					</div>
+					<div class="col-sm-12"><?php echo $form->error($model, 'teacher_class_subject_id', array('class' => 'text-danger')); ?></div>
+				</div>
 			</div>
 		</div>
 

@@ -153,6 +153,19 @@ class ClassAssignment extends CActiveRecord
 		return $groupBySubjects;
 	}
 
+	public static function teacherClassSubjects($teacher_id): array
+	{
+		$groupBySubjects = self::listBySubjectAndNumberOfStudents($teacher_id);
+
+		$subjects = [];
+		foreach ($groupBySubjects as $groupBySubject) {
+			$subject = $groupBySubject['subject'];
+			$subjects[$subject->id] = $subject->subject;
+		}
+
+		return $subjects;
+	}
+
 	public static function listOfStudents(array $students): string
 	{
 		$names = [];

@@ -43,7 +43,7 @@
         </a>
         <div id="collapseClasses" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/preview'); ?>">Section List</a>
+                <a class="collapse-item" href="<?php echo Yii::app()->createUrl('teacherSection/preview'); ?>">Section List</a>
             </div>
         </div>
     </li>

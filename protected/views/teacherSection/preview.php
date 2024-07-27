@@ -12,7 +12,7 @@ $this->menu = array(
 );
 ?>
 
-<h1>Class List</h1>
+<h1>Section List</h1>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">

@@ -20,9 +20,4 @@
 	<td>
 		<?php echo CHtml::encode($data->status); ?>
 	</td>
-
-	<td>
-		<?php echo CHtml::link(CHtml::encode('Download'), array('download', 'id' => $data->id)); ?>
-		/ <?php echo CHtml::link(CHtml::encode('Delete'), array('delete', 'id' => $data->id)); ?>
-	</td>
 </tr>
