@@ -212,4 +212,13 @@ class Question extends CActiveRecord
 			2 => "True or False",
 		];
 	}
+
+	public static function listByCompentency($subject_id, $competency_id)
+	{
+		$criteria = new CDbCriteria;
+		$criteria->compare('competency_id', $competency_id);
+
+		$model = self::model()->findAll();
+		$this->subjectId = $this->competency->subject_id;
+	}
 }

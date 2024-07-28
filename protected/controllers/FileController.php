@@ -11,8 +11,17 @@ class FileController extends Controller
 
 	public function init()
 	{
-		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER) ? '//layouts/sp2-main' : '//layouts/column2';
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
+			$this->layout = '//layouts/sp2-main';
+			return;
+		}
+
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) {
+			$this->layout = '//layouts/sp2-student';
+			return;
+		}
 	}
+
 
 	/**
 	 * @return array action filters

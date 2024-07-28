@@ -54,6 +54,7 @@ class Quiz extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'quizQuestions' => array(self::HAS_MANY, 'QuizQuestion', 'quiz_id'),
+			'subject' => array(self::BELONGS_TO, 'Subject', 'subject_id'),
 		);
 	}
 
@@ -177,6 +178,10 @@ class Quiz extends CActiveRecord
 					}
 				};
 			} else {
+
+				foreach ($this->quizQuestions as $quizQuestion) {
+				}
+
 				$quizTos->save(false);
 			}
 		}

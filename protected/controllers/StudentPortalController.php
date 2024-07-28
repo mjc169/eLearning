@@ -38,7 +38,7 @@ class StudentPortalController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('ClassList'),
+				'actions' =>  array('classList', 'quizList', 'takeQuiz'),
 				'users' => array('@'),
 			),
 			array(
@@ -55,6 +55,34 @@ class StudentPortalController extends Controller
 
 		$this->render('classList', array(
 			'classLists' => $classLists,
+		));
+	}
+
+	public function actionQuizList()
+	{
+		$student_id = Yii::app()->user->account->id;
+		$classLists = ClassAssignment::listBySubjectForStudent($student_id);
+		$subjectIds = [];
+		foreach ($classLists as $classList) {
+			$subjectIds[] = $classList['subject']->id;
+		}
+
+		$criteria = new CDbCriteria;
+		$criteria->addInCondition('id', $subjectIds);
+		$quizzes = Quiz::model()->findAll($criteria);
+
+		$this->render('quizList', array(
+			'quizzes' => $quizzes,
+		));
+	}
+
+	public function actionTakeQuiz($quiz_id)
+	{
+		$student_id = Yii::app()->user->account->id;
+		$quiz = Quiz::model()->findByPk($quiz_id);
+
+		$this->render('takeQuiz', array(
+			'quiz' => $quiz,
 		));
 	}
 }
