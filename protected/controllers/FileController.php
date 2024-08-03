@@ -174,11 +174,15 @@ class FileController extends Controller
 		));
 	}
 
-	public function actionAssignFiles()
+	public function actionAssignFiles($id = null)
 	{
 		$model = new FileAssignment;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
+
+		if (!empty($id)) {
+			$model->file_id = $id;
+		}
 
 		if (isset($_POST['FileAssignment'])) {
 			$model->attributes = $_POST['FileAssignment'];
@@ -187,7 +191,7 @@ class FileController extends Controller
 			if (!empty($model->receiver_id)) {
 				if ($model->save()) {
 					Yii::app()->user->setFlash('success', 'File has been assigned successfully!');
-					$this->redirect(array('assignFiles', 'id' => $model->id));
+					$this->redirect(array('myFiles'));
 				}
 			}
 
