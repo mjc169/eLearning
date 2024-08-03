@@ -25,7 +25,7 @@
 			<legend>Account:</legend>
 
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class="form-group row pl-4">
 						<div class="col-sm-12"><?php echo $form->labelEx($account, 'username'); ?></div>
 						<div class="col-sm-12"><?php echo $form->textField($account, 'username', array('class' => 'form-control', 'size' => 60, 'maxlength' => 128)); ?></div>

@@ -23,7 +23,7 @@
 			<?php echo $form->errorSummary(array($model), null, null, array('class' => 'card border-left-danger shadow h-100 py-2 pl-4 mb-4')); ?>
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div class="form-group row pl-4">
 						<div class="col-sm-12"><?php echo $form->labelEx($model, 'subject_id'); ?></div>
 						<div class="col-sm-12"><?php echo $form->dropDownList($model, 'subject_id', Subject::dataList(), array('empty' => '-Select Subject-', 'class' => 'form-control', 'disabled' => true)); ?></div>

@@ -20,7 +20,7 @@
 			?>
 
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 
 					<div class="form-group row pl-4">
 						<div class="col-sm-6"><?php echo $form->labelEx($model, 'subject_id'); ?></div>
