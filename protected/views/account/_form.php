@@ -4,67 +4,72 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="card shadow mb-4  col-sm-6">
+	<div class="card-body">
 
-	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id' => 'account-form',
-		// Please note: When you enable ajax validation, make sure the corresponding
-		// controller action is handling ajax validation correctly.
-		// There is a call to performAjaxValidation() commented in generated controller code.
-		// See class documentation of CActiveForm for details on this.
-		'enableAjaxValidation' => false,
-	)); ?>
+		<div class="form">
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+			<?php $form = $this->beginWidget('CActiveForm', array(
+				'id' => 'account-form',
+				// Please note: When you enable ajax validation, make sure the corresponding
+				// controller action is handling ajax validation correctly.
+				// There is a call to performAjaxValidation() commented in generated controller code.
+				// See class documentation of CActiveForm for details on this.
+				'enableAjaxValidation' => false,
+			)); ?>
 
-	<?php echo $form->errorSummary(array($account, $relatedModel)); ?>
+			<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<fieldset>
-		<legend>Account</legend>
+			<?php echo $form->errorSummary(array($account, $relatedModel)); ?>
 
-		<div class="row">
-			<?php echo $form->labelEx($account, 'username'); ?>
-			<?php echo $form->textField($account, 'username', array('size' => 60, 'maxlength' => 128)); ?>
-			<?php echo $form->error($account, 'username'); ?>
-		</div>
+			<fieldset>
+				<legend>Account</legend>
 
-		<div class="row">
-			<?php echo $form->labelEx($account, 'password'); ?>
-			<?php echo $form->passwordField($account, 'password', array('size' => 60, 'maxlength' => 255)); ?>
-			<?php echo $form->error($account, 'password'); ?>
-		</div>
+				<div class="row">
+					<?php echo $form->labelEx($account, 'username'); ?>
+					<?php echo $form->textField($account, 'username', array('size' => 60, 'maxlength' => 128)); ?>
+					<?php echo $form->error($account, 'username'); ?>
+				</div>
 
-		<div class="row">
-			<?php echo $form->labelEx($account, 'email_address'); ?>
-			<?php echo $form->textField($account, 'email_address', array('size' => 60, 'maxlength' => 128)); ?>
-			<?php echo $form->error($account, 'email_address'); ?>
-		</div>
+				<div class="row">
+					<?php echo $form->labelEx($account, 'password'); ?>
+					<?php echo $form->passwordField($account, 'password', array('size' => 60, 'maxlength' => 255)); ?>
+					<?php echo $form->error($account, 'password'); ?>
+				</div>
 
-		<div class="row">
-			<?php echo $form->labelEx($account, 'status'); ?>
-			<?php echo $form->dropDownList($account, 'status', array('1' => 'Active', '0' => 'Inactive')); ?>
-			<?php echo $form->error($account, 'status'); ?>
-		</div>
+				<div class="row">
+					<?php echo $form->labelEx($account, 'email_address'); ?>
+					<?php echo $form->textField($account, 'email_address', array('size' => 60, 'maxlength' => 128)); ?>
+					<?php echo $form->error($account, 'email_address'); ?>
+				</div>
 
-		<div class="row">
-			<?php echo $form->labelEx($account, 'account_type'); ?>
-			<?php echo $form->dropDownList($account, 'account_type', array(Account::ACCOUNT_TYPE_ADMIN => 'Admin', Account::ACCOUNT_TYPE_TEACHER => 'Teacher', Account::ACCOUNT_TYPE_STUDENT => 'Student')); ?>
-			<?php echo $form->error($account, 'account_type'); ?>
-		</div>
-	</fieldset>
+				<div class="row">
+					<?php echo $form->labelEx($account, 'status'); ?>
+					<?php echo $form->dropDownList($account, 'status', array('1' => 'Active', '0' => 'Inactive')); ?>
+					<?php echo $form->error($account, 'status'); ?>
+				</div>
 
-	<div id="partial-form">
+				<div class="row">
+					<?php echo $form->labelEx($account, 'account_type'); ?>
+					<?php echo $form->dropDownList($account, 'account_type', array(Account::ACCOUNT_TYPE_ADMIN => 'Admin', Account::ACCOUNT_TYPE_TEACHER => 'Teacher', Account::ACCOUNT_TYPE_STUDENT => 'Student')); ?>
+					<?php echo $form->error($account, 'account_type'); ?>
+				</div>
+			</fieldset>
+
+			<div id="partial-form">
+
+			</div>
+
+			<div class="row buttons">
+				<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save', array('class' => 'btn btn-primary btn-user btn-block')); ?>
+			</div>
+
+			<?php $this->endWidget(); ?>
+
+		</div><!-- form -->
 
 	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
-
-	<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
+</div>
 <script>
 	$(document).ready(function() {
 		const formData = <?php echo json_encode($_POST ?? []); ?>;

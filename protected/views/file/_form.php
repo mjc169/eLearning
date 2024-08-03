@@ -4,46 +4,51 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="card shadow mb-4  col-sm-6">
+	<div class="card-body">
 
-	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id' => 'file-form',
-		// Please note: When you enable ajax validation, make sure the corresponding
-		// controller action is handling ajax validation correctly.
-		// There is a call to performAjaxValidation() commented in generated controller code.
-		// See class documentation of CActiveForm for details on this.
-		'enableAjaxValidation' => false,
-		'htmlOptions' => array('enctype' => 'multipart/form-data')
-	)); ?>
+		<div class="form">
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+			<?php $form = $this->beginWidget('CActiveForm', array(
+				'id' => 'file-form',
+				// Please note: When you enable ajax validation, make sure the corresponding
+				// controller action is handling ajax validation correctly.
+				// There is a call to performAjaxValidation() commented in generated controller code.
+				// See class documentation of CActiveForm for details on this.
+				'enableAjaxValidation' => false,
+				'htmlOptions' => array('enctype' => 'multipart/form-data')
+			)); ?>
 
-	<?php //echo $form->errorSummary($model); 
-	?>
+			<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<div class="row">
-		<div class="col-md-6">
+			<?php //echo $form->errorSummary($model); 
+			?>
 
-			<div class="form-group row pl-4">
-				<div class="col-sm-6"><?php echo $form->labelEx($model, 'original_filename'); ?></div>
-				<div class="col-sm-6">
-					<?php echo $form->fileField($model, 'original_filename'); ?>
-					<?php echo $form->hiddenField($model, 'bvalue'); ?>
+			<div class="row">
+				<div class="col-md-6">
+
+					<div class="form-group row pl-4">
+						<div class="col-sm-6"><?php echo $form->labelEx($model, 'original_filename'); ?></div>
+						<div class="col-sm-6">
+							<?php echo $form->fileField($model, 'original_filename'); ?>
+							<?php echo $form->hiddenField($model, 'bvalue'); ?>
+						</div>
+						<div class="col-sm-12"><?php echo $form->error($model, 'original_filename', array('class' => 'text-danger')); ?></div>
+					</div>
 				</div>
-				<div class="col-sm-12"><?php echo $form->error($model, 'original_filename', array('class' => 'text-danger')); ?></div>
 			</div>
-		</div>
+
+
+			<div class="row buttons">
+				<?php echo CHtml::submitButton($model->isNewRecord ? 'Upload' : 'Save', array('class' => 'btn btn-primary btn-user btn-block')); ?>
+			</div>
+
+			<?php $this->endWidget(); ?>
+
+		</div><!-- form -->
+
 	</div>
-
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Upload' : 'Save'); ?>
-	</div>
-
-	<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
+</div>
 
 <script>
 	$(document).ready(function() {

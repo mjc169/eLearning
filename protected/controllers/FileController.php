@@ -216,13 +216,15 @@ class FileController extends Controller
 						}
 
 						Yii::app()->user->setFlash('success', 'File has been assigned successfully!');
-						$this->redirect(array('assignFiles', 'id' => $model->id));
+						$this->redirect(array('myFiles'));
 					}
 				}
 
 				Yii::app()->user->setFlash('error', 'Class has not been found, unable to share the file!');
-				$this->redirect(array('assignFiles', 'id' => $model->id));
+				$this->redirect(array('assignFiles', 'id' => $model->file_id));
 			}
+
+			$model->validate();
 		}
 
 		$this->render('assignFiles', array(
