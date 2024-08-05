@@ -7,8 +7,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE DATABASE IF NOT EXISTS `e_learning_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `e_learning_db`;
+CREATE DATABASE IF NOT EXISTS `hotelboss_elearning` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `hotelboss_elearning`;
 
 CREATE TABLE IF NOT EXISTS `tbl_account` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `tbl_teacher_subject` (
   KEY `FK_tbl_teacher_subject_tbl_account` (`teacher_id`),
   CONSTRAINT `FK_tbl_teacher_subject_tbl_account` FOREIGN KEY (`teacher_id`) REFERENCES `tbl_account` (`id`),
   CONSTRAINT `FK_tbl_teacher_subject_tbl_subject` FOREIGN KEY (`subject_id`) REFERENCES `tbl_subject` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT IGNORE INTO `tbl_teacher_subject` (`id`, `teacher_id`, `subject_id`) VALUES
 	(3, 3, 2),
