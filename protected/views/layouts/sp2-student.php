@@ -58,7 +58,7 @@
 			<div id="content">
 
 				<!-- Topbar -->
-				<?php $this->widget('TopbarWidget'); ?>
+				<?php $this->widget('TopBarWidget'); ?>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
