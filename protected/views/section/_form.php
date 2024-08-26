@@ -37,7 +37,7 @@
 
 					<div class="form-group row pl-4">
 						<div class="col-sm-12"><?php echo $form->labelEx($model, 'status'); ?></div>
-						<div class="col-sm-12"><?php echo $form->dropDownList($model, 'status', array('1' => 'Active', '0' => 'Inactive', 'class' => 'form-control')); ?></div>
+						<div class="col-sm-12"><?php echo $form->dropDownList($model, 'status', array('1' => 'Active', '0' => 'Inactive'), array('class' => 'form-control')); ?></div>
 						<div class="col-sm-12"><?php echo $form->error($model, 'status'); ?></div>
 					</div>
 

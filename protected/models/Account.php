@@ -2,7 +2,7 @@
 
 /**
  * This is the model class for table "tbl_account".
- *
+ * 
  * The followings are the available columns in table 'tbl_account':
  * @property integer $id
  * @property string $username
@@ -22,6 +22,7 @@
  * @property Student[] $students
  * @property Teacher[] $teachers
  */
+
 class Account extends CActiveRecord
 {
 	const ACCOUNT_TYPE_ADMIN = 1;

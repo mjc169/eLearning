@@ -22,6 +22,66 @@ class Controller extends CController
 	 */
 	public $breadcrumbs = array();
 
+
+	public function init()
+	{
+		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN) ? '//layouts/column2' : '//layouts/column1';
+	}
+
+	/**
+
+	public $layout;
+
+	public function init()
+	{
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
+			$this->layout = '//layouts/sp2-main';
+			return;
+		}
+
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) {
+			$this->layout = '//layouts/sp2-student';
+			return;
+		}
+	}
+
+	
+
+	public function init()
+	{
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
+			$this->layout = '//layouts/sp2-main';
+			return;
+		}
+
+		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) {
+			$this->layout = '//layouts/sp2-student';
+			return;
+		}
+	}
+
+	public $layout;
+
+	public function init()
+	{
+		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER) ? '//layouts/sp2-main' : '//layouts/column2';
+	}
+
+	
+	public $layout = '//layouts/column2';
+
+	public function init()
+	{
+		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT) ? '//layouts/sp2-student' : '//layouts/column1';
+	}
+
+	public $layout = '//layouts/column2';
+
+	public function init()
+	{
+		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER) ? '//layouts/sp2-main' : '//layouts/column2';
+	}
+	 */
 	public function printExit($mixed)
 	{
 		print_r($mixed);

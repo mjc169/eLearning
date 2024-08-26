@@ -21,18 +21,6 @@ class SiteController extends Controller
 		);
 	}
 
-	public function init()
-	{
-		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
-			$this->layout = '//layouts/sp2-main';
-			return;
-		}
-
-		if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) {
-			$this->layout = '//layouts/sp2-student';
-			return;
-		}
-	}
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.

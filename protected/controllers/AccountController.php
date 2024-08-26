@@ -3,12 +3,6 @@
 class AccountController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout = '//layouts/column2';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -87,9 +81,11 @@ class AccountController extends Controller
 			}
 
 			$account->save(false);
-			$relatedModel->account_id = $account->id;
-			$relatedModel->save(false);
 
+			if ((int)$account->account_type !== Account::ACCOUNT_TYPE_ADMIN) {
+				$relatedModel->account_id = $account->id;
+				$relatedModel->save(false);
+			}
 			$this->redirect(array('view', 'id' => $account->id));
 		}
 	}
@@ -111,8 +107,11 @@ class AccountController extends Controller
 			$account->attributes = $_POST['Account'];
 
 			$valid = $valid && $account->validate();
-			$account->salt = Account::generateRandomStringWithUniqid();
-			$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
+
+			if ($valid) {
+				$account->salt = Account::generateRandomStringWithUniqid();
+				$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
+			}
 		}
 
 		$this->validateRelatedModel($account, $relatedModel, $valid);
@@ -171,7 +170,7 @@ class AccountController extends Controller
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if (!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 	/**

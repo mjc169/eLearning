@@ -3,17 +3,6 @@
 class TeacherSectionController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout = '//layouts/column2';
-
-	public function init()
-	{
-		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER) ? '//layouts/sp2-main' : '//layouts/column2';
-	}
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
