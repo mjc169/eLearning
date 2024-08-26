@@ -80,6 +80,8 @@ class AccountController extends Controller
 					$account->teacher()->delete();
 			}
 
+			$account->salt = Account::generateRandomStringWithUniqid();
+			$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
 			$account->save(false);
 
 			if ((int)$account->account_type !== Account::ACCOUNT_TYPE_ADMIN) {
@@ -107,11 +109,6 @@ class AccountController extends Controller
 			$account->attributes = $_POST['Account'];
 
 			$valid = $valid && $account->validate();
-
-			if ($valid) {
-				$account->salt = Account::generateRandomStringWithUniqid();
-				$account->password = password_hash($_POST['Account']['password'] . $account->salt, PASSWORD_DEFAULT);
-			}
 		}
 
 		$this->validateRelatedModel($account, $relatedModel, $valid);
