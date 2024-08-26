@@ -166,44 +166,45 @@ class FileController extends Controller
 		if (isset($_POST['FileAssignment'])) {
 			$model->attributes = $_POST['FileAssignment'];
 			$model->status = 1; //active
+			$valid = $model->validate();
 
-			if (!empty($model->receiver_id)) {
-				if ($model->save()) {
-					Yii::app()->user->setFlash('success', 'File has been assigned successfully!');
-					$this->redirect(array('myFiles'));
-				}
-			}
-
-			if (!empty($model->teacher_class_subject_id)) {
-				$groupBySubjects = ClassAssignment::listBySubjectAndNumberOfStudents(Yii::app()->user->account->id);
-
-				if (!empty($groupBySubjects)) {
-
-					if (isset($groupBySubjects[$model->teacher_class_subject_id])) {
-						$studentAccounts = $groupBySubjects[$model->teacher_class_subject_id]['students'];
-
-						foreach ($studentAccounts as $account) {
-
-							$classFileAssignment = new FileAssignment;
-							$classFileAssignment->file_id = $model->file_id;
-							$classFileAssignment->receiver_id = $account->id;
-							$classFileAssignment->status = 1; //active
-
-							if ($classFileAssignment->validate()) {
-								$classFileAssignment->save(false);
-							}
-						}
-
+			if ($valid) {
+				if (!empty($model->receiver_id)) {
+					if ($model->save()) {
 						Yii::app()->user->setFlash('success', 'File has been assigned successfully!');
 						$this->redirect(array('myFiles'));
 					}
 				}
 
-				Yii::app()->user->setFlash('error', 'Class has not been found, unable to share the file!');
-				$this->redirect(array('assignFiles', 'id' => $model->file_id));
-			}
+				if (!empty($model->teacher_class_subject_id)) {
+					$groupBySubjects = ClassAssignment::listBySubjectAndNumberOfStudents(Yii::app()->user->account->id);
 
-			$model->validate();
+					if (!empty($groupBySubjects)) {
+
+						if (isset($groupBySubjects[$model->teacher_class_subject_id])) {
+							$studentAccounts = $groupBySubjects[$model->teacher_class_subject_id]['students'];
+
+							foreach ($studentAccounts as $account) {
+
+								$classFileAssignment = new FileAssignment;
+								$classFileAssignment->file_id = $model->file_id;
+								$classFileAssignment->receiver_id = $account->id;
+								$classFileAssignment->status = 1; //active
+
+								if ($classFileAssignment->validate()) {
+									$classFileAssignment->save(false);
+								}
+							}
+
+							Yii::app()->user->setFlash('success', 'File has been assigned successfully!');
+							$this->redirect(array('myFiles'));
+						}
+					}
+
+					Yii::app()->user->setFlash('error', 'Class has not been found, unable to share the file!');
+					$this->redirect(array('assignFiles', 'id' => $model->file_id));
+				}
+			}
 		}
 
 		$this->render('assignFiles', array(

@@ -2,12 +2,12 @@
 /* @var $this QuestionController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = array(
 	'My Files',
 );
 ?>
 
-<h1>Shared Files</h1>
+<h1>Files shared to me</h1>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">

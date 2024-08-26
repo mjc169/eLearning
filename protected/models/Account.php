@@ -211,23 +211,24 @@ class Account extends CActiveRecord
 			return null;
 
 		if ((int)$this->account_type === self::ACCOUNT_TYPE_TEACHER)
-			return $this->teacher();
+			return $this->teacher;
 
 		if ((int)$this->account_type === self::ACCOUNT_TYPE_STUDENT)
-			return $this->student();
+			return $this->student;
 	}
 
 	public static function dataList($account_type = null)
 	{
 
 		$criteria = new CDbCriteria();
-		if ($account_type !== null)
+		if ($account_type != null)
 			$criteria->compare('account_type', $account_type);
 
 		$models = self::model()->findAll($criteria);
 		/** might need add checking of `status` in the criteria */
 
 		$lookupOptions = array();
+		/** @var self $item */
 		foreach ($models as $item) {
 			$lookupOptions[$item->id] = $item->getFullNameWithType();
 		}
@@ -235,10 +236,9 @@ class Account extends CActiveRecord
 		return $lookupOptions;
 	}
 
-	private function getFullNameWithType($placeholder = null)
+	private function getFullNameWithType()
 	{
 		$relatedModel = $this->getRelatedModel();
-
 
 		if ((int)$this->account_type === self::ACCOUNT_TYPE_TEACHER)
 			$prefix = "[Teacher] ";
@@ -246,11 +246,12 @@ class Account extends CActiveRecord
 		if ((int)$this->account_type === self::ACCOUNT_TYPE_STUDENT)
 			$prefix = "[Student] ";
 
-		//var_dump($relatedModel); exit;
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_ADMIN)
+			$prefix = "[Admin] ";
+
 		if ($relatedModel)
 			return $prefix . $relatedModel->firstname . ' ' . $relatedModel->lastname;
 
-
-		return $placeholder !== null ? $placeholder : "[Admin] " . $this->email_address;
+		return $prefix . $this->email_address;
 	}
 }
