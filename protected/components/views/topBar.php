@@ -2,7 +2,7 @@
     <nav class="topbar bg-white ">
         <!-- blank -->
     </nav>
-<?php else : ?>
+<?php elseif (Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) : ?>
 
     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -49,4 +49,6 @@
         </ul>
 
     </nav>
+<?php else : ?>
+    <!-- Yii ADMIN -->
 <?php endif; ?>

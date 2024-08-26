@@ -22,7 +22,13 @@
 	<!-- Custom styles for this template-->
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/sp2/css/sb-admin-2.css" rel="stylesheet">
 	<style>
-		.error {
+		<?php if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)) { ?>.bg-gradient-primary {
+			background-color: #2d8937;
+			background-image: linear-gradient(180deg, #2d8937 10%, #0d2f11 100%);
+			background-size: cover;
+		}
+
+		<?php } ?>.error {
 			color: #5a5c69;
 			font-size: inherit;
 			position: inherit;
@@ -39,7 +45,7 @@
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<?php if (!Yii::app()->user->isGuest) : ?>
+		<?php if (!Yii::app()->user->isGuest && !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) : ?>
 			<?php $this->widget('SideNavWidget'); ?>
 		<?php endif; ?>
 		<!-- End of Sidebar -->

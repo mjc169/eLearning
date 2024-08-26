@@ -11293,3 +11293,20 @@ body.sidebar-toggled footer.sticky-footer {
 .breadcrumbs, .breadcrumbs a{
   color: #FFF;
 }
+
+.portlet-title {
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #CCC;
+}
+
+.operations {
+  padding-left: 10px; 
+}
+.operations li{
+  text-decoration: none;
+  list-style-type: none;
+}
+.portlet, .operations a{
+  color: #FFF;
+}

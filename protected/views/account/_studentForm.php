@@ -7,42 +7,43 @@
     'enableAjaxValidation' => false,
 )); ?>
 
+<br>
 <fieldset>
     <legend>Student Information:</legend>
     <div class="row">
         <?php echo $form->labelEx($student, 'lastname'); ?>
-        <?php echo $form->textField($student, 'lastname', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($student, 'lastname'); ?>
+        <?php echo $form->textField($student, 'lastname', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'lastname', array('class' => 'text-danger')); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($student, 'firstname'); ?>
-        <?php echo $form->textField($student, 'firstname', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($student, 'firstname'); ?>
+        <?php echo $form->textField($student, 'firstname', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'firstname', array('class' => 'text-danger')); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($student, 'middlename'); ?>
-        <?php echo $form->textField($student, 'middlename', array('size' => 60, 'maxlength' => 255)); ?>
-        <?php echo $form->error($student, 'middlename'); ?>
+        <?php echo $form->textField($student, 'middlename', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'middlename', array('class' => 'text-danger')); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($student, 'gender'); ?>
-        <?php echo $form->dropDownList($student, 'gender', Account::genderList(), array('empty' => Yii::t('app', '-Gender-'))); ?>
-        <?php echo $form->error($student, 'gender'); ?>
+        <?php echo $form->dropDownList($student, 'gender', Account::genderList(), array('empty' => Yii::t('app', '-Gender-'), 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'gender', array('class' => 'text-danger')); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($student, 'year_level'); ?>
-        <?php echo $form->dropDownList($student, 'year_level', YearLevel::dataList(), array('empty' => Yii::t('app', '-Year Level-'))); ?>
-        <?php echo $form->error($student, 'year_level'); ?>
+        <?php echo $form->dropDownList($student, 'year_level', YearLevel::dataList(), array('empty' => Yii::t('app', '-Year Level-'), 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'year_level', array('class' => 'text-danger')); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($student, 'section'); ?>
-        <?php echo $form->dropDownList($student, 'section', Section::dataList(), array('empty' => Yii::t('app', '-Section-'))); ?>
-        <?php echo $form->error($student, 'section'); ?>
+        <?php echo $form->dropDownList($student, 'section', Section::dataList(), array('empty' => Yii::t('app', '-Section-'), 'class' => 'form-control')); ?>
+        <?php echo $form->error($student, 'section', array('class' => 'text-danger')); ?>
     </div>
 </fieldset>
 
