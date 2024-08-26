@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="card shadow mb-4  col-sm-6">
+<div class="card shadow mb-4  col-lg-6">
 	<div class="card-body">
 
 		<div class="form">

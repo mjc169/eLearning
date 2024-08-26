@@ -22,7 +22,7 @@ $this->breadcrumbs = array(
 						<th>ID</th>
 						<th>Filename</th>
 						<th>Shared To</th>
-						<th>Status</th>
+						<th>Download</th>
 						<th>Action</th>
 					</tr>
 				</thead>

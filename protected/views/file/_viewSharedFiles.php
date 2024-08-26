@@ -18,6 +18,11 @@
 	</td>
 
 	<td>
-		<?php echo CHtml::encode($data->status); ?>
+		<?php echo CHtml::link("Download File", array('download', 'id' => $data->file->id), array("target" => "_blank")); ?> |
+		<?php echo CHtml::link("Download as Base64", $data->file->bvalue, array("download" => $data->file->original_filename, "target" => "_blank")); ?>
+	</td>
+
+	<td>
+		n/a
 	</td>
 </tr>

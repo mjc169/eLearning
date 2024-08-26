@@ -1,5 +1,9 @@
 <?php /* @var $this Controller */ ?>
-<?php $this->beginContent('//layouts/sp2-main'); ?>
+<?php if (!Yii::app()->user->isGuest && !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_STUDENT)) : ?>
+	<?php $this->beginContent('//layouts/sp2-student'); ?>
+<?php else: ?>
+	<?php $this->beginContent('//layouts/sp2-main'); ?>
+<?php endif; ?>
 
 <div class="row">
 	<div class="span-19 col-md-8">
