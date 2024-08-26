@@ -15,7 +15,7 @@ $this->menu = array(
 
 <h1>Assign File</h1>
 
-<div class="card shadow mb-4  col-sm-6">
+<div class="card shadow mb-4  col-sm-12  col-lg-8">
 	<div class="card-body">
 
 		<div class="form">

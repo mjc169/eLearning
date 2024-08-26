@@ -60,14 +60,14 @@
 				<?php $this->widget('TopBarWidget'); ?>
 				<!-- End of Topbar -->
 
-				<?php if (isset($this->breadcrumbs)) : ?>
-					<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-						'links' => $this->breadcrumbs,
-					)); ?><!-- breadcrumbs -->
-				<?php endif ?>
-
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
+
+					<?php if (isset($this->breadcrumbs) && !Yii::app()->user->isGuest) : ?>
+						<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+							'links' => $this->breadcrumbs,
+						)); ?><!-- breadcrumbs -->
+					<?php endif ?>
 
 					<!-- Page Heading -->
 					<!--<h1 class="h3 mb-4 text-gray-800">Blank Page</h1>-->
