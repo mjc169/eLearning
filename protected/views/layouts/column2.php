@@ -1,5 +1,5 @@
 <?php /* @var $this Controller */ ?>
-<?php $this->beginContent('//layouts/main'); ?>
+<?php $this->beginContent('//layouts/sp2-main'); ?>
 <div class="span-19">
 	<div id="content">
 		<?php echo $content; ?>
@@ -7,16 +7,16 @@
 </div>
 <div class="span-5 last">
 	<div id="sidebar">
-	<?php
+		<?php
 		$this->beginWidget('zii.widgets.CPortlet', array(
-			'title'=>'Operations',
+			'title' => 'Operations',
 		));
 		$this->widget('zii.widgets.CMenu', array(
-			'items'=>$this->menu,
-			'htmlOptions'=>array('class'=>'operations'),
+			'items' => $this->menu,
+			'htmlOptions' => array('class' => 'operations'),
 		));
 		$this->endWidget();
-	?>
+		?>
 	</div><!-- sidebar -->
 </div>
 <?php $this->endContent(); ?>

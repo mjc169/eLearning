@@ -8,4 +8,6 @@ $this->pageTitle = Yii::app()->name;
 
 <?php if (Yii::app()->user->isGuest) : ?>
 	<p>Please login.</p>
+
+	<?php echo CHtml::link("Login", array('site/login'), array('class' => 'btn btn-primary')); ?>
 <?php endif; ?>

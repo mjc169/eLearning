@@ -9,6 +9,7 @@
   line-height: 1;
   width: 12.5rem;
 }
+
 @keyframes noise-anim {
   $steps: 20;
   @for $i from 0 through $steps {

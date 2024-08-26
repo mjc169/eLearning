@@ -3,7 +3,7 @@
 <html>
 
 <?php Yii::app()->clientScript->registerCoreScript('jquery', CClientScript::POS_END); ?>
-
+<?php Yii::app()->clientScript->registerCoreScript('jquery.ui', CClientScript::POS_END); ?>
 
 <head>
 
@@ -20,14 +20,14 @@
 	<?php /*<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">*/ ?>
 
 	<!-- Custom styles for this template-->
-	<link href="<?php echo Yii::app()->request->baseUrl; ?>/sp2/css/sb-admin-2.min.css" rel="stylesheet">
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/sp2/css/sb-admin-2.css" rel="stylesheet">
 	<style>
 		.error {
 			color: #5a5c69;
 			font-size: inherit;
 			position: inherit;
 			line-height: inherit;
-			width: inherit;
+			/*width: inherit; */
 		}
 	</style>
 
@@ -39,12 +39,13 @@
 	<div id="wrapper">
 
 		<!-- Sidebar -->
-		<?php $this->widget('SideNavWidget'); ?>
-
+		<?php if (!Yii::app()->user->isGuest) : ?>
+			<?php $this->widget('SideNavWidget'); ?>
+		<?php endif; ?>
 		<!-- End of Sidebar -->
 
 		<!-- Content Wrapper -->
-		<div id="content-wrapper" class="d-flex flex-column">
+		<div id="content-wrapper" class="d-flex flex-column <?php echo Yii::app()->user->isGuest ? "bg-gradient-primary" : ""; ?>">
 
 			<!-- Main Content -->
 			<div id="content">
@@ -52,6 +53,12 @@
 				<!-- Topbar -->
 				<?php $this->widget('TopBarWidget'); ?>
 				<!-- End of Topbar -->
+
+				<?php if (isset($this->breadcrumbs)) : ?>
+					<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+						'links' => $this->breadcrumbs,
+					)); ?><!-- breadcrumbs -->
+				<?php endif ?>
 
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
@@ -110,7 +117,6 @@
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-	<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/jquery/jquery.min.js"></script>
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->
