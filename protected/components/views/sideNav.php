@@ -30,7 +30,18 @@
                 </a>
                 <div id="collapseAccountAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('account/index'); ?>">Account List</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('account/index'); ?>">View List</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubjectAdmin" aria-expanded="false" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Teacher Subjects</span>
+                </a>
+                <div id="collapseSubjectAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('account/indexTeacherSubject'); ?>">View List</a>
                     </div>
                 </div>
             </li>
@@ -41,7 +52,7 @@
                 </a>
                 <div id="collapseSectionAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/index'); ?>">Section List</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/index'); ?>">View List</a>
                     </div>
                 </div>
             </li>

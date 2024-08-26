@@ -27,7 +27,7 @@ class AccountController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial', 'assignSubject', 'viewTeacherSubject'),
+				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial', 'indexTeacherSubject', 'assignSubject', 'viewTeacherSubject', 'deleteAssignedSubject'),
 				'users' => array('@'),
 			),
 			array(
@@ -196,6 +196,14 @@ class AccountController extends Controller
 		return $model;
 	}
 
+	public function loadTeacherSubject($id)
+	{
+		$model = TeacherSubject::model()->findByPk($id);
+		if ($model === null)
+			throw new CHttpException(404, 'The requested page does not exist.');
+		return $model;
+	}
+
 	/**
 	 * Performs the AJAX validation.
 	 * @param Account $model the model to be validated
@@ -254,17 +262,23 @@ class AccountController extends Controller
 		), false, true); // Don't include layout or scripts
 	}
 
-	public function actionViewTeacherSubject()
+	public function actionIndexTeacherSubject()
 	{
-
 		$criteria = new CDbCriteria();
 
 		$dataProvider = new CActiveDataProvider('TeacherSubject', array(
 			'criteria' => $criteria,
 		));
 
-		$this->render('viewSubject', array(
+		$this->render('indexSubject', array(
 			'dataProvider' => $dataProvider,
+		));
+	}
+
+	public function actionViewTeacherSubject($id)
+	{
+		$this->render('viewSubject', array(
+			'model' => $this->loadTeacherSubject($id),
 		));
 	}
 
@@ -279,12 +293,21 @@ class AccountController extends Controller
 
 			if ($model->save()) {
 				Yii::app()->user->setFlash('success', 'Subject assigned to the teacher successfully!');
-				$this->redirect(array('assignSubject', 'id' => $model->id));
+				$this->redirect(array('indexTeacherSubject', 'id' => $model->id));
 			}
 		}
 
 		$this->render('assignSubject', array(
 			'model' => $model,
 		));
+	}
+
+	public function actionDeleteAssignedSubject($teacher_subject_id)
+	{
+		$this->loadTeacherSubject($teacher_subject_id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if (!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('indexTeacherSubject'));
 	}
 }

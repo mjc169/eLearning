@@ -11,7 +11,7 @@ $this->menu = array(
 <h1>Assign Teacher Subject</h1>
 
 
-<div class="card shadow mb-4  col-sm-6">
+<div class="card shadow mb-4  col-sm-12">
 	<div class="card-body">
 		<div class="form">
 
@@ -30,12 +30,12 @@ $this->menu = array(
 			?>
 
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 
 					<div class="form-group row pl-4">
 						<div class="col-sm-6"><?php echo $form->labelEx($model, 'subject_id'); ?></div>
 						<div class="col-sm-6">
-							<?php echo $form->dropDownList($model, 'subject_id', Subject::dataList(), array('empty' => Yii::t('app', '-Select Subject-'), 'class' => 'form-control', 'style' => 'width: 360px;')); ?>
+							<?php echo $form->dropDownList($model, 'subject_id', Subject::dataList(), array('empty' => Yii::t('app', '-Select Subject-'), 'class' => 'form-control', 'style' => 'max-width: 400px;')); ?>
 						</div>
 						<div class="col-sm-12"><?php echo $form->error($model, 'subject_id', array('class' => 'text-danger')); ?></div>
 					</div>
