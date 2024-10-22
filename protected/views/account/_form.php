@@ -8,58 +8,60 @@
 	<div class="card-body">
 
 		<div class="form">
+			<div class="row">
+				<div class="col-sm-6">
+					<?php $form = $this->beginWidget('CActiveForm', array(
+						'id' => 'account-form',
+						// Please note: When you enable ajax validation, make sure the corresponding
+						// controller action is handling ajax validation correctly.
+						// There is a call to performAjaxValidation() commented in generated controller code.
+						// See class documentation of CActiveForm for details on this.
+						'enableAjaxValidation' => false,
+					)); ?>
 
-			<?php $form = $this->beginWidget('CActiveForm', array(
-				'id' => 'account-form',
-				// Please note: When you enable ajax validation, make sure the corresponding
-				// controller action is handling ajax validation correctly.
-				// There is a call to performAjaxValidation() commented in generated controller code.
-				// See class documentation of CActiveForm for details on this.
-				'enableAjaxValidation' => false,
-			)); ?>
+					<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-			<p class="note">Fields with <span class="required">*</span> are required.</p>
+					<?php echo $form->errorSummary(array($account, $relatedModel), null, null, array('class' => 'card border-left-danger shadow h-100 py-2 pl-4 mb-4')); ?>
 
-			<?php echo $form->errorSummary(array($account, $relatedModel), null, null, array('class' => 'card border-left-danger shadow h-100 py-2 pl-4 mb-4')); ?>
+					<fieldset>
+						<legend>Account</legend>
 
-			<fieldset>
-				<legend>Account</legend>
+						<div class="row">
+							<?php echo $form->labelEx($account, 'username'); ?>
+							<?php echo $form->textField($account, 'username', array('size' => 60, 'maxlength' => 128, 'class' => 'form-control')); ?>
+							<?php echo $form->error($account, 'username', array('class' => 'text-danger')); ?>
+						</div>
 
-				<div class="row">
-					<?php echo $form->labelEx($account, 'username'); ?>
-					<?php echo $form->textField($account, 'username', array('size' => 60, 'maxlength' => 128, 'class' => 'form-control')); ?>
-					<?php echo $form->error($account, 'username', array('class' => 'text-danger')); ?>
+						<div class="row">
+							<?php echo $form->labelEx($account, 'password'); ?>
+							<?php echo $form->passwordField($account, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
+							<?php echo $form->error($account, 'password', array('class' => 'text-danger')); ?>
+						</div>
+
+						<div class="row">
+							<?php echo $form->labelEx($account, 'email_address'); ?>
+							<?php echo $form->textField($account, 'email_address', array('size' => 60, 'maxlength' => 128, 'class' => 'form-control')); ?>
+							<?php echo $form->error($account, 'email_address', array('class' => 'text-danger')); ?>
+						</div>
+
+						<div class="row">
+							<?php echo $form->labelEx($account, 'status'); ?>
+							<?php echo $form->dropDownList($account, 'status', array('1' => 'Active', '0' => 'Inactive'), array('class' => 'form-control')); ?>
+							<?php echo $form->error($account, 'status', array('class' => 'text-danger')); ?>
+						</div>
+
+						<div class="row">
+							<?php echo $form->labelEx($account, 'account_type'); ?>
+							<?php echo $form->dropDownList($account, 'account_type', array(Account::ACCOUNT_TYPE_ADMIN => 'Admin', Account::ACCOUNT_TYPE_TEACHER => 'Teacher', Account::ACCOUNT_TYPE_STUDENT => 'Student'), array('class' => 'form-control')); ?>
+							<?php echo $form->error($account, 'account_type', array('class' => 'text-danger')); ?>
+						</div>
+					</fieldset>
 				</div>
 
-				<div class="row">
-					<?php echo $form->labelEx($account, 'password'); ?>
-					<?php echo $form->passwordField($account, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?>
-					<?php echo $form->error($account, 'password', array('class' => 'text-danger')); ?>
+				<div id="partial-form" class="col-sm-6" style="margin:">
+
 				</div>
-
-				<div class="row">
-					<?php echo $form->labelEx($account, 'email_address'); ?>
-					<?php echo $form->textField($account, 'email_address', array('size' => 60, 'maxlength' => 128, 'class' => 'form-control')); ?>
-					<?php echo $form->error($account, 'email_address', array('class' => 'text-danger')); ?>
-				</div>
-
-				<div class="row">
-					<?php echo $form->labelEx($account, 'status'); ?>
-					<?php echo $form->dropDownList($account, 'status', array('1' => 'Active', '0' => 'Inactive'), array('class' => 'form-control')); ?>
-					<?php echo $form->error($account, 'status', array('class' => 'text-danger')); ?>
-				</div>
-
-				<div class="row">
-					<?php echo $form->labelEx($account, 'account_type'); ?>
-					<?php echo $form->dropDownList($account, 'account_type', array(Account::ACCOUNT_TYPE_ADMIN => 'Admin', Account::ACCOUNT_TYPE_TEACHER => 'Teacher', Account::ACCOUNT_TYPE_STUDENT => 'Student'), array('class' => 'form-control')); ?>
-					<?php echo $form->error($account, 'account_type', array('class' => 'text-danger')); ?>
-				</div>
-			</fieldset>
-
-			<div id="partial-form">
-
 			</div>
-
 			<br><br>
 			<div class="row buttons">
 				<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save', array('class' => 'btn btn-primary btn-user btn-block')); ?>

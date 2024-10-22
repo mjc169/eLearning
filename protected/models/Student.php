@@ -18,6 +18,20 @@
  * @property Section $section0
  * @property YearLevel $yearLevel
  */
+
+/*
+ tbl_student_quiz
+-id
+-student_id
+-quiz_id
+-created_at
+
+
+tbl_student_answer
+-id
+-student_id
+-answer_id (fk question_choice.id)
+*/
 class Student extends CActiveRecord
 {
 	/**

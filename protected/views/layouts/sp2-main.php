@@ -24,7 +24,7 @@
 	<style>
 		<?php if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)) { ?>.bg-gradient-primary {
 			background-color: #2d8937;
-			background-image: linear-gradient(180deg, #2d8937 10%, #0d2f11 100%);
+			background-image: linear-gradient(180deg, #2a9135 10%, #164b1c 100%);
 			background-size: cover;
 		}
 

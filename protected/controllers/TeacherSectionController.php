@@ -21,7 +21,7 @@ class TeacherSectionController extends Controller
 	public function accessRules()
 	{
 		if (Yii::app()->user->isGuest || !Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_TEACHER)) {
-			throw new CHttpException(401, 'You are not authorized to perform this action. For Admin only');
+			throw new CHttpException(401, 'You are not authorized to perform this action. For Teacher only');
 		}
 
 		return array(
