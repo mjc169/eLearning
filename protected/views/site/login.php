@@ -21,11 +21,13 @@ $this->breadcrumbs = array(
 				<div class="card-body p-0">
 					<!-- Nested Row within Card Body -->
 					<div class="row">
-						<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+						<div class="col-lg-6 d-none d-lg-block bg-login-image my-auto text-center">
+							<img src="<?php echo Yii::app()->request->baseUrl; ?>/images/deped-region3.jpg" style="width:80%;">
+						</div>
 						<div class="col-lg-6">
 							<div class="p-5">
 								<div class="text-center">
-									<h1 class="h1 text-gray-900 mb-4">E-Learning</h1>
+									<h1 class="h1 text-gray-900 mb-4">DR3AM System</h1>
 									<h4 class="h4 text-gray-900 mb-4">Welcome Back!</h4>
 								</div>
 
