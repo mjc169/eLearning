@@ -34,7 +34,6 @@
 	</div>
 </div>
 
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/datatables/jquery.dataTables.js"></script>
 <script>
 	// Call the dataTables jQuery plugin
 	$(document).ready(function() {

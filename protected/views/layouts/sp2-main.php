@@ -21,6 +21,8 @@
 
 	<!-- Custom styles for this template-->
 	<link href="<?php echo Yii::app()->request->baseUrl; ?>/sp2/css/sb-admin-2.css" rel="stylesheet">
+	<link href="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 	<style>
 		<?php if (!Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN)) { ?>.bg-gradient-primary {
 			background-color: #2d8937;
@@ -131,6 +133,8 @@
 
 	<!-- Custom scripts for all pages-->
 	<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/js/sb-admin-2.min.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/datatables/jquery.dataTables.js"></script>
+	<script src="<?php echo Yii::app()->request->baseUrl; ?>/sp2/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 </body>
 
