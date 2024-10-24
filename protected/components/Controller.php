@@ -25,7 +25,7 @@ class Controller extends CController
 
 	public function init()
 	{
-		$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN) ? '//layouts/column2' : '//layouts/column1';
+		//$this->layout = !Yii::app()->user->isGuest && Yii::app()->user->account->isAccountType(Account::ACCOUNT_TYPE_ADMIN) ? '//layouts/column2' : '//layouts/column1';
 	}
 
 	/**

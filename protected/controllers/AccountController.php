@@ -27,7 +27,7 @@ class AccountController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial', 'indexTeacherSubject', 'assignSubject', 'viewTeacherSubject', 'deleteAssignedSubject'),
+				'actions' =>  array('admins', 'teachers', 'students', 'view', 'create', 'update', 'admin', 'delete', 'studentFormPartial', 'teacherFormPartial', 'indexTeacherSubject', 'assignSubject', 'viewTeacherSubject', 'deleteAssignedSubject'),
 				'users' => array('@'),
 			),
 			array(
@@ -173,10 +173,46 @@ class AccountController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionAdmins()
 	{
-		$dataProvider = new CActiveDataProvider('Account');
-		$this->render('index', array(
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'account_type = :type';
+		$criteria->params = array(':type' => Account::ACCOUNT_TYPE_ADMIN);
+
+		$dataProvider = new CActiveDataProvider('Account', array(
+			'criteria' => $criteria,
+		));
+
+		$this->render('admins', array(
+			'dataProvider' => $dataProvider,
+		));
+	}
+
+	public function actionTeachers()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'account_type = :type';
+		$criteria->params = array(':type' => Account::ACCOUNT_TYPE_TEACHER);
+
+		$dataProvider = new CActiveDataProvider('Account', array(
+			'criteria' => $criteria,
+		));
+
+		$this->render('teachers', array(
+			'dataProvider' => $dataProvider,
+		));
+	}
+
+	public function actionStudents()
+	{
+		$criteria = new CDbCriteria();
+		$criteria->condition = 'account_type = :type';
+		$criteria->params = array(':type' => Account::ACCOUNT_TYPE_STUDENT);
+
+		$dataProvider = new CActiveDataProvider('Account', array(
+			'criteria' => $criteria,
+		));
+		$this->render('students', array(
 			'dataProvider' => $dataProvider,
 		));
 	}

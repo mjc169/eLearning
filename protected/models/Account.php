@@ -185,8 +185,10 @@ class Account extends CActiveRecord
 		if ($relatedModel)
 			return $relatedModel->firstname . ' ' . $relatedModel->lastname;
 
+		if ((int)$this->account_type === self::ACCOUNT_TYPE_ADMIN)
+			return "(Admin)";
 
-		return $placeholder !== null ? $placeholder : "(Admin)";
+		return "(blank)";
 	}
 
 	public function getGenderLabel()
