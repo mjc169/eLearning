@@ -1,31 +1,25 @@
-<?php
-/* @var $this AccountController */
-/* @var $model Account */
-/* @var $form CActiveForm */
-?>
-
-<div class="card shadow mb-4  col-sm-12">
-	<div class="card-body">
-
-		<div class="form">
-			<div class="row">
-				<div class="col-sm-6">
-					<?php $form = $this->beginWidget('CActiveForm', array(
-						'id' => 'account-form',
-						// Please note: When you enable ajax validation, make sure the corresponding
-						// controller action is handling ajax validation correctly.
-						// There is a call to performAjaxValidation() commented in generated controller code.
-						// See class documentation of CActiveForm for details on this.
-						'enableAjaxValidation' => false,
-					)); ?>
-
+<div class="form">
+	<?php $form = $this->beginWidget('CActiveForm', array(
+		'id' => 'account-form',
+		// Please note: When you enable ajax validation, make sure the corresponding
+		// controller action is handling ajax validation correctly.
+		// There is a call to performAjaxValidation() commented in generated controller code.
+		// See class documentation of CActiveForm for details on this.
+		'enableAjaxValidation' => false,
+	)); ?>
+	<div class="row">
+		<div class="col-sm-12 mb-2">
+			<?php echo $form->errorSummary(array($account, $relatedModel), null, null, array('class' => 'card border-left-danger shadow h-100 py-2 pl-4 mb-4')); ?>
+		</div>
+		<div class="col-sm-6">
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">Account Information</h6>
+				</div>
+				<div class="card-body">
 					<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-					<?php echo $form->errorSummary(array($account, $relatedModel), null, null, array('class' => 'card border-left-danger shadow h-100 py-2 pl-4 mb-4')); ?>
-
 					<fieldset>
-						<legend>Account</legend>
-
 						<div class="row">
 							<?php echo $form->labelEx($account, 'username'); ?>
 							<?php echo $form->textField($account, 'username', array('size' => 60, 'maxlength' => 128, 'class' => 'form-control')); ?>
@@ -57,22 +51,21 @@
 						</div>
 					</fieldset>
 				</div>
-
-				<div id="partial-form" class="col-sm-6" style="margin:">
-
-				</div>
 			</div>
-			<br><br>
-			<div class="row buttons">
-				<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save', array('class' => 'btn btn-primary btn-user btn-block')); ?>
+		</div>
+		<div class="col-sm-6 d-flex align-items-stretch">
+			<div id="partial-form">
+				<!--AJAX CONTENT -->
 			</div>
-
-			<?php $this->endWidget(); ?>
-
-		</div><!-- form -->
-
+		</div>
+		<div class="col-sm-12 text-right">
+			<?php echo CHtml::submitButton($account->isNewRecord ? 'Create' : 'Save', array('class' => 'btn btn-primary btn-user')); ?>
+		</div>
 	</div>
-</div>
+	<?php $this->endWidget(); ?>
+
+</div><!-- form -->
+
 <script>
 	$(document).ready(function() {
 		const formData = <?php echo json_encode($_POST ?? []); ?>;
@@ -80,7 +73,14 @@
 		$('#Account_account_type').on("change", function(event) {
 			const thisVal = parseInt($(this).val());
 
-			$('#partial-form').html("");
+			$('#partial-form').html("" +
+				"<div class=\"card shadow mb-4\">" +
+				"<div class=\"card-header py-3\">" +
+				"<h6 class=\"m-0 font-weight-bold text-primary\">User Information</h6>" +
+				"</div>" +
+				"<div class=\"card-body\">Additional field will be displayed here based on selected Account Type.</div>" +
+				"</div>"
+			);
 
 			const isAdmin = thisVal === <?php echo Account::ACCOUNT_TYPE_ADMIN; ?>;
 			const isTeacher = thisVal === <?php echo Account::ACCOUNT_TYPE_TEACHER; ?>;

@@ -1,20 +1,19 @@
-<?php
-/* @var $this AccountController */
-/* @var $model Account */
+<div class="row">
+	<div class="col-sm-12 col-lg-8">
+		<div class="card shadow mb-4">
+			<div class="card-header py-3">
+				<h6 class="m-0 font-weight-bold text-primary">Add New Account</h6>
+			</div>
+			<div class="card-body">
+				<?php $this->renderPartial('_formAccount', array(
+					'account' => $account,
+					'relatedModel' => $relatedModel,
+				)); ?>
+			</div>
+		</div>
+	</div>
+</div>
 
-$this->breadcrumbs = array(
-	'Accounts' => array('index'),
-	'Create Account',
-);
-
-$this->menu = array(
-	array('label' => 'List Account', 'url' => array('index')),
-);
-?>
-
-<h1>Create Account</h1>
-
-<?php $this->renderPartial('_form', array(
-	'account' => $account,
-	'relatedModel' => $relatedModel,
-)); ?>
+<?php $this->widget('AdminDataTable'); ?>
+<?php $this->widget('StudentDataTable'); ?>
+<?php $this->widget('TeacherDataTable'); ?>

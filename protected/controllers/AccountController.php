@@ -175,17 +175,7 @@ class AccountController extends Controller
 	 */
 	public function actionAdmins()
 	{
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'account_type = :type';
-		$criteria->params = array(':type' => Account::ACCOUNT_TYPE_ADMIN);
-
-		$dataProvider = new CActiveDataProvider('Account', array(
-			'criteria' => $criteria,
-		));
-
-		$this->render('admins', array(
-			'dataProvider' => $dataProvider,
-		));
+		$this->render('admins', array());
 	}
 
 	public function actionTeachers()
@@ -205,16 +195,7 @@ class AccountController extends Controller
 
 	public function actionStudents()
 	{
-		$criteria = new CDbCriteria();
-		$criteria->condition = 'account_type = :type';
-		$criteria->params = array(':type' => Account::ACCOUNT_TYPE_STUDENT);
-
-		$dataProvider = new CActiveDataProvider('Account', array(
-			'criteria' => $criteria,
-		));
-		$this->render('students', array(
-			'dataProvider' => $dataProvider,
-		));
+		$this->render('students', array());
 	}
 
 	/**
