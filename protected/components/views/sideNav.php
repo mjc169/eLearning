@@ -131,13 +131,16 @@
                     </div>
                 </div>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
         <?php endif; ?>
+
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <span class="text-light text-xs">Collapse</span>
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
     </ul>
