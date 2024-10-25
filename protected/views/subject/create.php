@@ -2,7 +2,7 @@
 	<div class="col-sm-12 col-lg-4">
 		<div class="card shadow mb-4">
 			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">Add New Section</h6>
+				<h6 class="m-0 font-weight-bold text-primary">Add New Subject</h6>
 			</div>
 			<div class="card-body">
 				<?php $this->renderPartial('_form', array('model' => $model)); ?>
@@ -11,4 +11,4 @@
 	</div>
 </div>
 
-<?php $this->widget('SectionDataTable'); ?>
+<?php $this->widget('SubjectDataTable'); ?>

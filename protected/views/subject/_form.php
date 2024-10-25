@@ -1,13 +1,7 @@
-<?php
-/* @var $this SectionController */
-/* @var $model Section */
-/* @var $form CActiveForm */
-?>
-
 <div class="form">
 
 	<?php $form = $this->beginWidget('CActiveForm', array(
-		'id' => 'section-form',
+		'id' => 'subject-form',
 		// Please note: When you enable ajax validation, make sure the corresponding
 		// controller action is handling ajax validation correctly.
 		// There is a call to performAjaxValidation() commented in generated controller code.
@@ -22,15 +16,21 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="form-group row pl-4">
-				<div class="col-sm-12"><?php echo $form->labelEx($model, 'section_code'); ?></div>
-				<div class="col-sm-12"><?php echo $form->textField($model, 'section_code', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?></div>
-				<div class="col-sm-12"><?php echo $form->error($model, 'section_code', array('class' => 'text-danger')); ?></div>
+				<div class="col-sm-12"><?php echo $form->labelEx($model, 'subject_code'); ?></div>
+				<div class="col-sm-12"><?php echo $form->textField($model, 'subject_code', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?></div>
+				<div class="col-sm-12"><?php echo $form->error($model, 'subject_code', array('class' => 'text-danger')); ?></div>
 			</div>
 
 			<div class="form-group row pl-4">
-				<div class="col-sm-12"><?php echo $form->labelEx($model, 'section'); ?></div>
-				<div class="col-sm-12"><?php echo $form->textField($model, 'section', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?></div>
-				<div class="col-sm-12"><?php echo $form->error($model, 'section', array('class' => 'text-danger')); ?></div>
+				<div class="col-sm-12"><?php echo $form->labelEx($model, 'subject'); ?></div>
+				<div class="col-sm-12"><?php echo $form->textField($model, 'subject', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?></div>
+				<div class="col-sm-12"><?php echo $form->error($model, 'subject', array('class' => 'text-danger')); ?></div>
+			</div>
+
+			<div class="form-group row pl-4">
+				<div class="col-sm-12"><?php echo $form->labelEx($model, 'description'); ?></div>
+				<div class="col-sm-12"><?php echo $form->textField($model, 'description', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control')); ?></div>
+				<div class="col-sm-12"><?php echo $form->error($model, 'description', array('class' => 'text-danger')); ?></div>
 			</div>
 
 			<div class="form-group row pl-4">

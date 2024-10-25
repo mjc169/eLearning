@@ -40,11 +40,14 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSubjectAdmin" aria-expanded="false" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Teacher Subjects</span>
+                    <span>Subjects</span>
                 </a>
                 <div id="collapseSubjectAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('account/indexTeacherSubject'); ?>">View List</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('subject/index'); ?>">View List of Subjects</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('subject/assignedSubjects'); ?>">View Assigned Subjects</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('subject/create'); ?>">Add New Subject</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('subject/createAssignedSubject'); ?>">Assign Subject To Teacher</a>
                     </div>
                 </div>
             </li>
@@ -55,7 +58,8 @@
                 </a>
                 <div id="collapseSectionAdmin" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/index'); ?>">View List</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/index'); ?>">View List of Sections</a>
+                        <a class="collapse-item" href="<?php echo Yii::app()->createUrl('section/create'); ?>">Add New Section</a>
                     </div>
                 </div>
             </li>

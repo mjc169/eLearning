@@ -1,6 +1,6 @@
 <?php
 
-class SectionController extends Controller
+class SubjectController extends Controller
 {
 	/**
 	 * @return array action filters
@@ -26,7 +26,7 @@ class SectionController extends Controller
 		return array(
 			array(
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions' =>  array('index', 'view', 'create', 'update', 'delete', 'preview'),
+				'actions' =>  array('index', 'view', 'create', 'update', 'delete', 'preview', 'assignedSubjects', 'createAssignedSubject', 'deleteAssignedSubject'),
 				'users' => array('@'),
 			),
 			array(
@@ -53,13 +53,13 @@ class SectionController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new Section;
+		$model = new Subject;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Section'])) {
-			$model->attributes = $_POST['Section'];
+		if (isset($_POST['Subject'])) {
+			$model->attributes = $_POST['Subject'];
 			if ($model->save())
 				$this->redirect(array('view', 'id' => $model->id));
 		}
@@ -81,10 +81,10 @@ class SectionController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if (isset($_POST['Section'])) {
-			$model->attributes = $_POST['Section'];
+		if (isset($_POST['Subject'])) {
+			$model->attributes = $_POST['Subject'];
 			if ($model->save()) {
-				Yii::app()->user->setFlash('success', 'Section updated successfully!');
+				Yii::app()->user->setFlash('success', 'Subject updated successfully!');
 				$this->redirect(array('index', 'id' => $model->id));
 			}
 		}
@@ -105,7 +105,7 @@ class SectionController extends Controller
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if (!isset($_GET['ajax'])) {
-			Yii::app()->user->setFlash('success', 'Section deleted successfully!');
+			Yii::app()->user->setFlash('success', 'Subject deleted successfully!');
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 		}
 	}
@@ -122,12 +122,12 @@ class SectionController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Section the loaded model
+	 * @return Subject the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model = Section::model()->findByPk($id);
+		$model = Subject::model()->findByPk($id);
 		if ($model === null)
 			throw new CHttpException(404, 'The requested page does not exist.');
 		return $model;
@@ -135,11 +135,11 @@ class SectionController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Section $model the model to be validated
+	 * @param Subject $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'section-form') {
+		if (isset($_POST['ajax']) && $_POST['ajax'] === 'subject-form') {
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
@@ -148,10 +148,56 @@ class SectionController extends Controller
 	public function actionPreview()
 	{
 		//$teacher_id = Yii::app()->user->account->id;
-		$sectionLists = Section::listByNumberOfStudents();
+		$sectionLists = Subject::listByNumberOfStudents();
 
 		$this->render('preview', array(
 			'sectionLists' => $sectionLists,
 		));
+	}
+
+	public function actionAssignedSubjects()
+	{
+		$this->render('assignedSubjects', array());
+	}
+
+	public function actionCreateAssignedSubject()
+	{
+		$model = new TeacherSubject;
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if (isset($_POST['TeacherSubject'])) {
+			$model->attributes = $_POST['TeacherSubject'];
+
+			if ($model->save()) {
+				Yii::app()->user->setFlash('success', 'Assigning of Subject has been successful!');
+				$this->redirect(array('assignedSubjects', 'id' => $model->id));
+			}
+		}
+
+		$this->render('assignedSubjectsCreate', array(
+			'model' => $model,
+		));
+	}
+
+	public function actionDeleteAssignedSubject($teacher_subject_id)
+	{
+		$this->loadTeacherSubject($teacher_subject_id)->delete();
+
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if (!isset($_GET['ajax'])) {
+			Yii::app()->user->setFlash('success', 'Assigned subject has been removed successfully!');
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('assignedSubjects'));
+		}
+	}
+
+
+
+	public function loadTeacherSubject($id)
+	{
+		$model = TeacherSubject::model()->findByPk($id);
+		if ($model === null)
+			throw new CHttpException(404, 'The requested page does not exist.');
+		return $model;
 	}
 }
