@@ -1,63 +1,38 @@
-<?php
-/* @var $this StudentController */
-/* @var $dataProvider CActiveDataProvider */
+<h1>My Class List</h1>
 
-$this->breadcrumbs = array(
-	'Students',
-);
 
-$this->menu = array(
-	array('label' => 'Create Student', 'url' => array('create')),
-	array('label' => 'Manage Student', 'url' => array('admin')),
-);
-?>
-
-<h1>Class List</h1>
-
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<!--<h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>-->
-	</div>
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Subject</th>
-						<th>No of Students</th>
-						<th>Student List</th>
-					</tr>
-				</thead>
-				<tbody>
-
-					<?php foreach ($classLists as $subject_id => $data) : ?>
-						<tr class="view">
-
-							<td>
-
-								<?php echo $subject_id; ?>
-							</td>
-
-							<td>
-								<?php echo CHtml::encode("[" . $data['subject']->subject_code . "]" . $data['subject']->subject);
-								?>
-							</td>
-
-							<td>
-								<?php echo CHtml::encode(count($data['students'])); ?>
-							</td>
-
-							<td>
-								<?php echo ClassAssignment::listOfStudents($data['students']); ?>
-							</td>
-
+<?php foreach ($studentsBySubject as $subject_code =>  $subjectData) : ?>
+	<!-- DataTales Example -->
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Subject: <?php echo $subject_code; ?></h6>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>Teacher's Fullname</th>
+							<th>Subject</th>
+							<th>Student's Fullname</th>
+							<th>D</th>
 						</tr>
-					<?php endforeach; ?>
-				</tbody>
+					</thead>
+					<tbody>
+						<?php foreach ($subjectData['students'] as $studentData) : ?>
+							<tr class="view">
+								<td> <?php echo $subjectData['teacher']->getFullName(); ?> </td>
+								<td> <?php echo CHtml::encode("[" . $subjectData['subject']->subject_code . "]" . $subjectData['subject']->subject); ?></td>
+								<td> <?php echo $studentData->getFullName("[Admin]:" . $studentData->username); ?> </td>
+								<td>D</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
 
-			</table>
+				</table>
+
+			</div>
 		</div>
 	</div>
-</div>
+	<br>
+<?php endforeach; ?>

@@ -40,13 +40,17 @@ class ClassController extends Controller
 	public function actionIndex()
 	{
 		$teacher_id = Yii::app()->user->account->id;
-		$classLists = ClassAssignment::listBySubjectAndNumberOfStudents($teacher_id);
 
-		//echo '<pre>';
-		///print_r($classLists);
-		//exit;
+		$groupBySubjects = ClassAssignment::listBySubjectAndNumberOfStudents($teacher_id);
+		$subjects = [];
+		foreach ($groupBySubjects as $groupBySubject) {
+			$subject = $groupBySubject['subject'];
+			$subjects[$subject->subject_code] = $groupBySubject;
+		}
+
+		$studentsBySubject = $subjects;
 		$this->render('index', array(
-			'classLists' => $classLists,
+			'studentsBySubject' => $studentsBySubject,
 		));
 	}
 

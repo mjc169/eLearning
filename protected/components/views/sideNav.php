@@ -65,6 +65,8 @@
             </li>
         <?php else : ?>
             <!-- Nav Item - Pages Collapse Menu -->
+
+            <?php /*
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseStudent" aria-expanded="false" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -77,7 +79,7 @@
                     </div>
                 </div>
             </li>
-
+            */ ?>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSections" aria-expanded="false" aria-controls="collapseSections">
                     <i class="fas fa-fw fa-folder"></i>
@@ -132,8 +134,6 @@
                 </div>
             </li>
         <?php endif; ?>
-
-
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
